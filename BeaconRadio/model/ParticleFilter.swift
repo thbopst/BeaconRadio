@@ -328,10 +328,17 @@ class ParticleFilter: NSObject, Observable, Observer {
     private func generateParticlesAroundBeacons(beacons: [Beacon]) -> [Particle] {
         var particles = [Particle]()
         
-        for b in beacons {
+        for (i, b) in enumerate(beacons) {
             if let landmark = self.map.landmarks[b.identifier] {
                 
-                let size:Int = Int(ceil(Double(self.particleSetSize) / Double(beacons.count)))
+                var size:Int = 0
+                
+                if b === beacons.last {
+                    size = particleSetSize - particles.count
+                } else {
+                    size =  Int(pow(0.5, Double(i+1)) * Double(particleSetSize))
+                }
+                
                 var addedParticles = 0
                 
                 while addedParticles < size {
