@@ -10,7 +10,6 @@
 		E013884A1A1B455600CB1999 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
 		E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
 		E0181F7F1A10CAB8003D9E2D /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */; };
-		E037AAA419F949ED00038DBA /* MotionMeasurementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037AAA319F949ED00038DBA /* MotionMeasurementController.swift */; };
 		E040631219E3BCD900C0A3D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E040631119E3BCD900C0A3D0 /* CoreLocation.framework */; };
 		E040633819E549ED00C0A3D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040632819E549ED00C0A3D0 /* AppDelegate.swift */; };
 		E040633919E549ED00C0A3D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E040632919E549ED00C0A3D0 /* LaunchScreen.xib */; };
@@ -28,7 +27,6 @@
 		E05551CC1A1365C90073EFAC /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CB1A1365C90073EFAC /* Angle.swift */; };
 		E05551CE1A13802C0073EFAC /* Pose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CD1A13802C0073EFAC /* Pose.swift */; };
 		E0754E351A443E75005EA7F2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0754E341A443E75005EA7F2 /* Settings.swift */; };
-		E09460F81A00D0F70026E002 /* StepCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460F71A00D0F70026E002 /* StepCounterViewController.swift */; };
 		E09460FA1A0261280026E002 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460F91A0261280026E002 /* Map.swift */; };
 		E09460FC1A0261380026E002 /* MapsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FB1A0261380026E002 /* MapsManager.swift */; };
 		E09460FE1A02850F0026E002 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FD1A02850F0026E002 /* UIImage.swift */; };
@@ -88,7 +86,6 @@
 		E01388491A1B455600CB1999 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionModel.swift; sourceTree = "<group>"; };
 		E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementModel.swift; sourceTree = "<group>"; };
-		E037AAA319F949ED00038DBA /* MotionMeasurementController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionMeasurementController.swift; sourceTree = "<group>"; };
 		E04062EA19E3BC8B00C0A3D0 /* BeaconRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E040630119E3BC8B00C0A3D0 /* BeaconRadioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconRadioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E040631119E3BCD900C0A3D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -111,7 +108,6 @@
 		E05551CB1A1365C90073EFAC /* Angle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		E05551CD1A13802C0073EFAC /* Pose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pose.swift; sourceTree = "<group>"; };
 		E0754E341A443E75005EA7F2 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		E09460F71A00D0F70026E002 /* StepCounterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepCounterViewController.swift; sourceTree = "<group>"; };
 		E09460F91A0261280026E002 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		E09460FB1A0261380026E002 /* MapsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsManager.swift; sourceTree = "<group>"; };
 		E09460FD1A02850F0026E002 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -210,9 +206,7 @@
 				E040635019E70AB000C0A3D0 /* BeaconDetailsViewController.swift */,
 				E040635219E7B32000C0A3D0 /* BeaconRangingChartViewController.swift */,
 				E040632E19E549ED00C0A3D0 /* BeaconViewController.swift */,
-				E037AAA319F949ED00038DBA /* MotionMeasurementController.swift */,
 				E09460FF1A02AD070026E002 /* ParticleMapViewController.swift */,
-				E09460F71A00D0F70026E002 /* StepCounterViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -430,7 +424,6 @@
 				E04F6B681A08E5A100C7F78E /* ParticleFilter.swift in Sources */,
 				E09461081A03FAAA0026E002 /* Particle.swift in Sources */,
 				E0754E351A443E75005EA7F2 /* Settings.swift in Sources */,
-				E09460F81A00D0F70026E002 /* StepCounterViewController.swift in Sources */,
 				E040633E19E549ED00C0A3D0 /* BeaconLogManager.swift in Sources */,
 				E040634119E549ED00C0A3D0 /* Observer.swift in Sources */,
 				E0E09D101A233146008DBAA1 /* BeaconRadarSimulator.swift in Sources */,
@@ -446,7 +439,6 @@
 				E0E09D181A2386D0008DBAA1 /* MotionTrackerSimulator.swift in Sources */,
 				E0E09D161A2386BF008DBAA1 /* MotionTracker.swift in Sources */,
 				E0E8A9651A123141003FC9EE /* Random.swift in Sources */,
-				E037AAA419F949ED00038DBA /* MotionMeasurementController.swift in Sources */,
 				E0E09D0C1A21D48B008DBAA1 /* BeaconRadarFactory.swift in Sources */,
 				E040633819E549ED00C0A3D0 /* AppDelegate.swift in Sources */,
 				E0FCEC0F1A15F1F60035BB35 /* Landmark.swift in Sources */,
