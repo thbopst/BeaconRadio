@@ -75,7 +75,7 @@ class MeasurementModel: Observer {
                     
                     let d = sqrt( (diffX * diffX) + (diffY * diffY) )
                     //                    let sigma_d = max(0.3131 * d + 0.0051, 0.5) // standard deviation
-                    let sigma_d = 0.1 * d // standard deviation
+                    let sigma_d = 0.25 * d // standard deviation
                     //                    let sigma_d_2 = pow(sigma_d, 2) // variance
                     
                     let d_measurment = beaconsInRange[bID]!

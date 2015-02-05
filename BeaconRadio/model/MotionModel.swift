@@ -104,8 +104,9 @@ class MotionModel: MotionTrackerDelegate {
         }
         
         let lastPose = self.lastPoseEstimation
-        
-        poseStore.append(Pose(x: lastPose.x + xDiff, y: lastPose.y + yDiff, theta: heading))
+        if xDiff != 0.0 && yDiff != 0.0 {
+            poseStore.append(Pose(x: lastPose.x + xDiff, y: lastPose.y + yDiff, theta: heading))
+        }
         
         self.motionStore.removeAll(keepCapacity: true)
     }
@@ -158,16 +159,14 @@ class MotionModel: MotionTrackerDelegate {
         self.motionStore += motions
         self.motionStore_pf += motions
         
-        self.latestDistanceMeasurement = (end, d)
+        self.latestDistanceMeasurement = (timestamp: end, distance: d)
         computeNewPoseEstimation()
     }
     
-    func motionTracker(tracker: IMotionTracker, didReceiveMotionActivityData stationary: Bool, withConfidence confidence: CMMotionActivityConfidence, andStartDate start: NSDate) {
+    func motionTracker(tracker: IMotionTracker, didReceiveMotionActivityData stationary: Bool, andStartDate start: NSDate) {
         
-        let isStationary = !(!stationary && confidence.rawValue >= CMMotionActivityConfidence.Low.rawValue)
-        
-        if isStationary != self._isDeviceStationary.stationary { // Just set if changes => timestamp is kept if nothing changes
-            self._isDeviceStationary = (timestamp: start, stationary: isStationary)
+        if stationary != self._isDeviceStationary.stationary { // Just set if changes => timestamp is kept if nothing changes
+            self._isDeviceStationary = (timestamp: start, stationary: stationary)
         }
     }
     
@@ -251,9 +250,8 @@ class MotionModel: MotionTrackerDelegate {
         var i = 0
         
         do {
-            var sigma_rot = Angle.deg2Rad(10.0) // degree
-            //            let sigma_trans = 0.0971 * u_t.distance + 1.445 //0.068 * u_t.distance + 2.1559
-            var sigma_trans = 0.1 * u.distance
+            var sigma_rot = Angle.deg2Rad(30.0) // degree
+            var sigma_trans = 0.5 * u.distance // m
             
             if u.distance == 0.0 {
                 sigma_rot = M_PI

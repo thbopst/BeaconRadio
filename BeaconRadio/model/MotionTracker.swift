@@ -33,8 +33,9 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     private let headingLogger = DataLogger(attributeNames: ["ts", "magneticHeading"])
     private let pedometerLogger = DataLogger(attributeNames: ["startTime", "endTime", "distance", "steps"])
     private let stepCounterLogger = DataLogger(attributeNames: ["ts", "steps"])
-    private let deviceMotionLogger = DataLogger(attributeNames: ["ts", "m11", "m12", "m13", "m21", "m22", "m23", "m31", "m32", "m33"])
+    private let deviceMotionLogger = DataLogger(attributeNames: ["ts", "m11", "m12", "m13", "m21", "m22", "m23", "m31", "m32", "m33", "ax", "ay", "az"])
     private let activityLogger = DataLogger(attributeNames: ["startDate", "confidence", "unknown", "stationary", "walking", "running", "automotive", "cycling"])
+
     
     // Date Formatter
     private lazy var dateFormatter: NSDateFormatter = {
@@ -42,6 +43,12 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         dateFormatter.dateFormat = "YYYY-MM-dd_HH-mm"
         return dateFormatter
     }()
+    
+    // Walking estimation
+    private let MOTION_UPDATES:Int = 50
+    private var aNormHistory = [Double](count: 50, repeatedValue: 0.0)
+    private var aNormHistoryCounter = 0
+    private let stationaryThreshold = 0.1
     
     override required init () {
         super.init()
@@ -63,12 +70,12 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         
         // CMDeviceMotion
         self.deviceMotion.showsDeviceMovementDisplay = true
-        self.deviceMotion.deviceMotionUpdateInterval = 0.25
+        self.deviceMotion.deviceMotionUpdateInterval = 1.0/Double(self.MOTION_UPDATES)
         
         
         // CLLocationManager authorization request
         self.locationManager.delegate = self
-        self.locationManager.headingFilter = 2.5
+        self.locationManager.headingFilter = 1.0
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Restricted ||
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.Denied {
@@ -135,7 +142,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                 if CMMotionActivityManager.isActivityAvailable() {
                     self.motionactivity.startActivityUpdatesToQueue(operationQueue, withHandler: {activity in
                         
-                        self.delegate?.motionTracker(self, didReceiveMotionActivityData: activity.stationary, withConfidence: activity.confidence, andStartDate: activity.startDate)
+//                        self.delegate?.motionTracker(self, didReceiveMotionActivityData: activity.stationary, withConfidence: activity.confidence, andStartDate: activity.startDate)
                         
                         let relativeTs = self.activityLogger.convertAbsoluteDateToRelativeDate(activity.startDate)
                         
@@ -163,11 +170,29 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                                 Logger.sharedInstance.log(message: "Heading (CM): \(heading) deg")
                             }
                             
+                            
+                            // decide weather user is walking or not
+                            let a = motion.userAcceleration
+                            let aNorm = sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
+                            
+                            self.aNormHistory[self.aNormHistoryCounter % self.MOTION_UPDATES] = aNorm
+                            
+                            self.aNormHistoryCounter = (self.aNormHistoryCounter + 1) % self.MOTION_UPDATES
+                            
+                            let aNormAvg = self.aNormHistory.reduce(0.0, combine: +) / Double(self.aNormHistoryCounter)
+                            
+                            let stationary = (aNormAvg <= self.stationaryThreshold)
+                            
+                            self.delegate?.motionTracker(self, didReceiveMotionActivityData: stationary, andStartDate: timestamp)
+                            
+                            
+                            // logging
                             let relativeTs = self.headingLogger.convertAbsoluteDateToRelativeDate(timestamp)
                             self.deviceMotionLogger.log([["ts":"\(relativeTs)",
                                 "m11":"\(rMatrix.m11)", "m12":"\(rMatrix.m12)", "m13":"\(rMatrix.m13)",
                                 "m21":"\(rMatrix.m21)", "m22":"\(rMatrix.m22)", "m23":"\(rMatrix.m23)",
-                                "m31":"\(rMatrix.m31)", "m32":"\(rMatrix.m32)", "m33":"\(rMatrix.m33)"]])
+                                "m31":"\(rMatrix.m31)", "m32":"\(rMatrix.m32)", "m33":"\(rMatrix.m33)",
+                                "ax":"\(a.x)", "ay":"\(a.y)", "az":"\(a.z)"]])
                         }
                         
                     })
