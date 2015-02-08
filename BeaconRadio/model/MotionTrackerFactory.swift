@@ -46,7 +46,8 @@ protocol IMotionTracker {
 }
 
 protocol MotionTrackerDelegate {
-    func motionTracker(tracker: IMotionTracker, didReceiveHeading heading: Double, withTimestamp ts: NSDate)
+    func motionTracker(tracker: IMotionTracker, didMeasureCompassHeading heading: Heading, withTimestamp ts: NSDate)
+    func motionTracker(tracker: IMotionTracker, didMeasureDeviceMotionHeading heading: Heading, withTimestamp ts: NSDate)
     func motionTracker(tracker: IMotionTracker, didReceiveDistance d: Double, withStartDate start: NSDate, andEndDate end: NSDate)
-    func motionTracker(tracker: IMotionTracker, didReceiveMotionActivityData stationary: Bool, andStartDate start: NSDate)
+    func motionTracker(tracker: IMotionTracker, didMeasureAccelerationWithNorm aNorm: Double, withTimestamp ts:NSDate)
 }

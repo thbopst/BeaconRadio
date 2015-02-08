@@ -46,9 +46,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     
     // Walking estimation
     private let MOTION_UPDATES:Int = 50
-    private var aNormHistory = [Double](count: 50, repeatedValue: 0.0)
-    private var aNormHistoryCounter = 0
-    private let stationaryThreshold = 0.1
+    
     
     override required init () {
         super.init()
@@ -119,7 +117,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                                 let relativeEndDate = self.pedometerLogger.convertAbsoluteDateToRelativeDate(data.endDate)
                                 
                                 let res = self.pedometerLogger.log([["startTime":"\(relativeStartDate)", "endTime":"\(relativeEndDate)", "distance":"\(data.distance)", "steps":"\(data.numberOfSteps)"]])
-//                            Logger.sharedInstance.log(message: data.description)
                             })
                             
                         }
@@ -166,8 +163,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                                 
                                 //let heading = (motion.attitude.yaw + M_PI) % (2 * M_PI) // yaw: -PI/2 = North, PI = East, PI/2 = South, 0 = West
                                 
-                                self.delegate?.motionTracker(self, didReceiveHeading: heading, withTimestamp: timestamp)
-                                Logger.sharedInstance.log(message: "Heading (CM): \(heading) deg")
+                                self.delegate?.motionTracker(self, didMeasureDeviceMotionHeading: Heading(headingInDegree: heading), withTimestamp: timestamp)
                             }
                             
                             
@@ -175,15 +171,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                             let a = motion.userAcceleration
                             let aNorm = sqrt(a.x * a.x + a.y * a.y + a.z * a.z)
                             
-                            self.aNormHistory[self.aNormHistoryCounter % self.MOTION_UPDATES] = aNorm
-                            
-                            self.aNormHistoryCounter = (self.aNormHistoryCounter + 1) % self.MOTION_UPDATES
-                            
-                            let aNormAvg = self.aNormHistory.reduce(0.0, combine: +) / Double(self.aNormHistoryCounter)
-                            
-                            let stationary = (aNormAvg <= self.stationaryThreshold)
-                            
-                            self.delegate?.motionTracker(self, didReceiveMotionActivityData: stationary, andStartDate: timestamp)
+                            self.delegate?.motionTracker(self, didMeasureAccelerationWithNorm: aNorm, withTimestamp: timestamp)
                             
                             
                             // logging
@@ -210,7 +198,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
         
-//        self.delegate?.motionTracker(self, didReceiveHeading: newHeading.magneticHeading, withTimestamp: newHeading.timestamp)
+        self.delegate?.motionTracker(self, didMeasureDeviceMotionHeading: Heading(headingInDegree: newHeading.magneticHeading), withTimestamp: newHeading.timestamp)
         
         self.operationQueue.addOperationWithBlock({
             
@@ -220,9 +208,9 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         })
     }
     
-//    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager!) -> Bool {
-//        return true
-//    }
+    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager!) -> Bool {
+        return true
+    }
     
     func stopMotionTracking() {
         if isTracking {

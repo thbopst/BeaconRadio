@@ -16,16 +16,10 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
     @IBOutlet weak var startStopLocalization: UIBarButtonItem!
     
     private lazy var map:Map? = {
-        return MapsManager().loadMap(name: "F007")
+        return MapsManager().loadMap(name: "F-Foyer") // F007
     }()
     
-    private lazy var particleFilter: ParticleFilter? = {
-        if let map = self.map {
-            return ParticleFilter(map: self.map!)
-        } else {
-            return nil
-        }
-    }()
+    private var particleFilter: ParticleFilter? = nil
     
 
     // MARK: UIViewController methods
@@ -43,6 +37,14 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
             particleFilter.addObserver(self)
         }
         
+        //centerMap()
+        
+    }
+    
+    private func centerMap() {
+        let offsetX:CGFloat = max((self.scrollView.bounds.size.width - self.particleMapView.bounds.size.width) / 2, 0.0)
+        let offsetY:CGFloat = max((self.scrollView.bounds.size.height - self.particleMapView.bounds.size.height) / 2, 0.0)
+        self.particleMapView.center = CGPoint(x: self.particleMapView.bounds.size.width / 2 + offsetX, y: self.particleMapView.bounds.size.height / 2 + offsetY);
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -59,16 +61,19 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
     
     @IBAction func toggleLocalization(sender: UIBarButtonItem) {
         
-        if let particleFilter = self.particleFilter {
-            
-            if particleFilter.isRunning {
-                particleFilter.removeObserver(self)
-                particleFilter.stopLocalization()
-                self.startStopLocalization.title = "Start"
-            } else {
-                particleFilter.addObserver(self)
-                particleFilter.startLocalization()
+        if self.particleFilter != nil {
+            self.particleFilter!.removeObserver(self)
+            self.particleFilter!.stopLocalization()
+            self.startStopLocalization.title = "Start"
+            self.particleFilter = nil
+        } else {
+            if let map = self.map {
+                self.particleFilter = ParticleFilter(map: self.map!)
+                self.particleFilter!.addObserver(self)
+                self.particleFilter!.startLocalization()
                 self.startStopLocalization.title = "Stop"
+            } else {
+                println("[ERROR] No map found!")
             }
         }
     }
@@ -79,7 +84,7 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
     }
 
     
-    // MARK: ParticleView DataSource
+    // MARK: ParticleMapView DataSource
     func mapImgForParticleMapView(view: ParticleMapView) -> UIImage? {
         return self.map?.mapImg
     }

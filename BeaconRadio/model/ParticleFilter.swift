@@ -317,7 +317,6 @@ class ParticleFilter: NSObject, Observable, Observer {
         let logStmt = "ParticleDiversity: \(Double(differentParticleCount) / Double(particleHistogram.count)) (\(logCount_addedRandomParticleCount) random particles), ParticleWeightSum: \(weightSum)"
         
         println(logStmt)
-        Logger.sharedInstance.log(message: logStmt)
         
         return particles_t
     }

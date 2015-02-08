@@ -26,5 +26,5 @@ class Settings {
     
     // MARK: Settings
     let simulation = true
-    let simulationDataPrefix = "2014-12-20_11-47"
+    let simulationDataPrefix = "2015-02-07_17-54"
 }

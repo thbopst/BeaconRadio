@@ -13,7 +13,7 @@ class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
 
     private var delegate: MotionTrackerDelegate?
     
-//    private let headingPlayer = DataPlayer()
+    private let headingPlayer = DataPlayer()
     private let deviceMotionPlayer = DataPlayer()
     private let pedometerPlayer = DataPlayer()
     private let activityPlayer = DataPlayer()
@@ -28,15 +28,15 @@ class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
         
         let settings = Settings.sharedInstance
         
-//        self.headingPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Heading.csv")!, error: nil)
+        self.headingPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Heading.csv")!, error: nil)
         self.deviceMotionPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_DeviceMotion.csv")!, error: nil)
         self.pedometerPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Pedometer.csv")!, error: nil)
-        self.activityPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Activity.csv")!, error: nil)
+//        self.activityPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Activity.csv")!, error: nil)
         
-//        self.headingPlayer.playback(self)
+        self.headingPlayer.playback(self)
         self.deviceMotionPlayer.playback(self)
         self.pedometerPlayer.playback(self)
-        self.activityPlayer.playback(self)
+//        self.activityPlayer.playback(self)
     }
     
     func stopMotionTracking() {
@@ -47,29 +47,29 @@ class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
     // MARK: DataPlayerDelegate protocol
     func dataPlayer(player: DataPlayer, handleData data: [[String:String]]) {
         
-//        if player === self.headingPlayer {
-//            handleHeadingData(data)
-//        } else
-        if player === self.deviceMotionPlayer {
+        if player === self.headingPlayer {
+            handleHeadingData(data)
+        } else if player === self.deviceMotionPlayer {
             handleDeviceMotionData(data)
         } else if player === self.pedometerPlayer {
             handlePedometerData(data)
-        } else if player === self.activityPlayer {
-            handleActivityData(data)
         }
+//        else if player === self.activityPlayer {
+//            handleActivityData(data)
+//        }
     }
     
-//    private func handleHeadingData(data: [[String:String]]) {
-//        
-//        for d in data {
-//            let heading: Double = NSString(string: d["magneticHeading"]!).doubleValue
-//            
-//            let timeInterval: Double = NSString(string: d["ts"]!).doubleValue
-//            let timestamp: NSDate = self.headingPlayer.convertRelativeDateToAbsolute(timeInterval) // relative timestamp to playerstart
-//            
-//            self.delegate?.motionTracker(self, didReceiveHeading: heading, withTimestamp: timestamp)
-//        }
-//    }
+    private func handleHeadingData(data: [[String:String]]) {
+        
+        for d in data {
+            let heading: Double = NSString(string: d["magneticHeading"]!).doubleValue
+            
+            let timeInterval: Double = NSString(string: d["ts"]!).doubleValue
+            let timestamp: NSDate = self.headingPlayer.convertRelativeDateToAbsolute(timeInterval) // relative timestamp to playerstart
+            
+            self.delegate?.motionTracker(self, didMeasureCompassHeading: Heading(headingInDegree: heading), withTimestamp: timestamp)
+        }
+    }
     
     private func handleDeviceMotionData(data: [[String:String]]) {
         
@@ -87,8 +87,16 @@ class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
                 
                 //let heading = (motion.attitude.yaw + M_PI) % (2 * M_PI) // yaw: -PI/2 = North, PI = East, PI/2 = South, 0 = West
                 
-                self.delegate?.motionTracker(self, didReceiveHeading: heading, withTimestamp: timestamp)
+                self.delegate?.motionTracker(self, didMeasureDeviceMotionHeading: Heading(headingInDegree: heading), withTimestamp: timestamp)
             }
+            
+            let ax: Double = NSString(string: d["ax"]!).doubleValue
+            let ay: Double = NSString(string: d["ay"]!).doubleValue
+            let az: Double = NSString(string: d["az"]!).doubleValue
+            
+            let aNorm = sqrt(ax * ax + ay * ay + az * az)
+            
+            self.delegate?.motionTracker(self, didMeasureAccelerationWithNorm: aNorm, withTimestamp: timestamp)
         }
     }
     
@@ -106,15 +114,15 @@ class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
         }
     }
     
-    private func handleActivityData(data: [[String:String]]) {
-        for d in data {
-            let startTimeInterval: Double = NSString(string: d["startDate"]!).doubleValue
-            let startDate: NSDate = self.pedometerPlayer.convertRelativeDateToAbsolute(startTimeInterval) // relative timestamp to playerstart
-            
-            let stationary: Bool = NSString(string: d["stationary"]!).boolValue
-            let confidence: Int = NSString(string: d["confidence"]!).integerValue
-            
-            self.delegate?.motionTracker(self, didReceiveMotionActivityData: stationary, withConfidence: CMMotionActivityConfidence(rawValue: confidence)!, andStartDate: startDate)
-        }
-    }
+//    private func handleActivityData(data: [[String:String]]) {
+//        for d in data {
+//            let startTimeInterval: Double = NSString(string: d["startDate"]!).doubleValue
+//            let startDate: NSDate = self.pedometerPlayer.convertRelativeDateToAbsolute(startTimeInterval) // relative timestamp to playerstart
+//            
+//            let stationary: Bool = NSString(string: d["stationary"]!).boolValue
+//            let confidence: Int = NSString(string: d["confidence"]!).integerValue
+//            
+//            self.delegate?.motionTracker(self, didReceiveMotionActivityData: stationary, withConfidence: CMMotionActivityConfidence(rawValue: confidence)!, andStartDate: startDate)
+//        }
+//    }
 }

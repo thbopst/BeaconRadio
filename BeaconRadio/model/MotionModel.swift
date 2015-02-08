@@ -32,6 +32,10 @@ class MotionModel: MotionTrackerDelegate {
     
     private var latestHeading: (timestamp: NSDate, heading: Double)?
     private var headingStore: [(timestamp: NSDate, heading: Double)] = []
+    private var lastCompassHeading: Heading?
+    private var lastDMHeading: Heading?
+    private var latestDMHeading: Heading?
+    
     private var latestDistanceMeasurement: (timestamp: NSDate, distance: Double)?
     private var motionStore_pf = [Motion]() // particle filter
     private var motionStore = [Motion]()
@@ -39,11 +43,19 @@ class MotionModel: MotionTrackerDelegate {
     private var poseStore = [Pose]()
     private var startPose: Pose
     
+    private var aNormHistory = [Double](count: 50, repeatedValue: 0.0)
+    private var aNormHistoryCounter = 0
+    private let stationaryThreshold = 0.1
     
     private var _isDeviceStationary = (timestamp: NSDate(), stationary: true)
     var isDeviceStationary: (timestamp: NSDate, stationary: Bool) {
         get {
-            return self._isDeviceStationary
+            
+            let aNormAvg = self.aNormHistory.reduce(0.0, combine: +) / Double(self.aNormHistoryCounter)
+            
+            let stationary = (aNormAvg <= self.stationaryThreshold)
+            
+            return (timestamp:NSDate(), stationary: stationary)
         }
     }
     
@@ -51,7 +63,8 @@ class MotionModel: MotionTrackerDelegate {
     init(map: Map) {
         self.map = map
 //        self.startPose = Pose(x: 1.93, y: 1.24, theta: 0.0) // x = 0.38 + 0.55 + 1.0 = 1.93, y = 0.04 + 1.2 = 1.24 (Türe VR)
-        self.startPose = Pose(x: 7.93, y: 1.24, theta: 0.0) // x = 0.38 + 0.55 + 7.0 = 1.93, y = 0.04 + 1.2 = 1.24 (Fenster VL)
+//        self.startPose = Pose(x: 7.93, y: 1.24, theta: 0.0) // x = 0.38 + 0.55 + 7.0 = 1.93, y = 0.04 + 1.2 = 1.24 (Fenster VL)
+        self.startPose = Pose(x: 5.4, y: 13.9, theta: 0.0) // F-Foyer
     }
     
     func startMotionTracking() {
@@ -106,6 +119,7 @@ class MotionModel: MotionTrackerDelegate {
         let lastPose = self.lastPoseEstimation
         if xDiff != 0.0 && yDiff != 0.0 {
             poseStore.append(Pose(x: lastPose.x + xDiff, y: lastPose.y + yDiff, theta: heading))
+            println("[MotionPose] x:\(poseStore.last!.x), y: \(poseStore.last!.y)")
         }
         
         self.motionStore.removeAll(keepCapacity: true)
@@ -132,13 +146,51 @@ class MotionModel: MotionTrackerDelegate {
 
     
     // MARK: MotionTrackerDelegate
-    func motionTracker(tracker: IMotionTracker, didReceiveHeading heading: Double, withTimestamp ts: NSDate) {
+    
+    func motionTracker(tracker: IMotionTracker, didMeasureCompassHeading heading: Heading, withTimestamp ts: NSDate) {
         
-        let mapBasedHeading: Double = heading - self.map.mapOrientation
+        // map based compass heading
+        let mapBasedHeading = heading - Heading(headingInDegree: self.map.mapOrientation)
         
-        let tupel: (timestamp: NSDate, heading: Double) = (ts, Angle.compassDeg2UnitCircleRad(mapBasedHeading))
+        var newHeading = mapBasedHeading
         
-        self.headingStore.append(tupel)
+        
+        // calc diff of device motion heading
+        if self.latestDMHeading != nil && self.lastDMHeading != nil {
+            let dmHeadingDiff = self.latestDMHeading!.valueInDeg - self.lastDMHeading!.valueInDeg
+            
+            // diff of compass heading
+            
+            if let lastCompassHeading = self.lastCompassHeading {
+                let compassHeadingDiff = mapBasedHeading.valueInDeg - lastCompassHeading.valueInDeg
+                
+                // avg difference
+                let avgHeadingDiff = (compassHeadingDiff + dmHeadingDiff) / 2.0
+                
+                
+                if avgHeadingDiff < 0 {
+                    newHeading = lastCompassHeading - Heading(headingInDegree: abs(avgHeadingDiff))
+                } else {
+                    newHeading = lastCompassHeading + Heading(headingInDegree: avgHeadingDiff)
+                }
+                
+//                println("Heading cDiff: \(compassHeadingDiff), dmDiff: \(dmHeadingDiff), avg: \(avgHeadingDiff), nHeading: \(newHeading.valueInDeg)")
+            }
+        }
+
+        
+        self.headingStore.append((timestamp: ts, heading: newHeading.valueInRads))
+        
+        self.lastCompassHeading = mapBasedHeading
+        
+        if let latest = self.latestDMHeading {
+            self.lastDMHeading = latest
+        }
+    }
+        
+    func motionTracker(tracker: IMotionTracker, didMeasureDeviceMotionHeading heading: Heading, withTimestamp ts: NSDate) {
+        
+        self.latestDMHeading = heading - Heading(headingInDegree: self.map.mapOrientation)
     }
     
     func motionTracker(tracker: IMotionTracker, didReceiveDistance d: Double, withStartDate start: NSDate, andEndDate end: NSDate) {
@@ -162,13 +214,14 @@ class MotionModel: MotionTrackerDelegate {
         self.latestDistanceMeasurement = (timestamp: end, distance: d)
         computeNewPoseEstimation()
     }
+
     
-    func motionTracker(tracker: IMotionTracker, didReceiveMotionActivityData stationary: Bool, andStartDate start: NSDate) {
+    func motionTracker(tracker: IMotionTracker, didMeasureAccelerationWithNorm aNorm: Double, withTimestamp ts:NSDate) {
+        self.aNormHistory[self.aNormHistoryCounter % self.aNormHistory.count] = aNorm
         
-        if stationary != self._isDeviceStationary.stationary { // Just set if changes => timestamp is kept if nothing changes
-            self._isDeviceStationary = (timestamp: start, stationary: stationary)
-        }
+        self.aNormHistoryCounter = (self.aNormHistoryCounter + 1) % self.aNormHistory.count
     }
+    
     
     // MARK: Motion calculation
     private func computeMotionsByIntegratingHeadingIntoDistance(distance: Double, forStartTime start: NSDate, andEndTime end: NSDate) -> [Motion] {
