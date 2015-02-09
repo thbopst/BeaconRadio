@@ -50,9 +50,6 @@ class ParticleFilter: NSObject, Observable, Observer {
     
     var particleSetMean: (x: Double, y: Double) {
         get {
-//            let x = self.particleSet.reduce(0.0, combine: {$0 + $1.x})/Double(self.particleSetSize)
-//            let y = self.particleSet.reduce(0.0, combine: {$0 + $1.y})/Double(self.particleSetSize)
-//            return (x: x, y: y)
             return self.weightedParticleSetMean
         }
     }
@@ -108,8 +105,6 @@ class ParticleFilter: NSObject, Observable, Observer {
         var particlesT = self.particles // copies particleset
         
         self.operationQueue.addOperationWithBlock({
-            
-//            let startTime = NSDate()
             
             // Distance measurements to Beacons
             var z_reverse = self.measurementModel.measurements.reverse()
@@ -169,26 +164,22 @@ class ParticleFilter: NSObject, Observable, Observer {
             }
 
             
-            if !u_reverse.isEmpty { // just executed if u_reverse is empty or z_reverse
+            // just executed if u_reverse is empty or z_reverse
+            if !u_reverse.isEmpty {
                 // return residual values to motion model
                 self.motionModel.returnResidualMotions(u_reverse)
             }
             
-            let deviceStationary = self.motionModel.isDeviceStationary
-            
             // if device is Stationary => integrate sensor values, if not return them to measurement model
-            if deviceStationary.stationary {
+            if self.motionModel.isDeviceStationary.stationary {
                 
                 while !z_reverse.isEmpty {
                     
                     let z_k = z_reverse.last!
                     
-//                    if z_k.timestamp.compare(deviceStationary.timestamp) != NSComparisonResult.OrderedAscending {
-                        // stationary.timestamp <= z_k.timestamp
+                    particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
+                    particlesT = self.filter(particlesT, andMeasurements: z_k)
                     
-                        particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
-                        particlesT = self.filter(particlesT, andMeasurements: z_k)
-//                    }
                     z_reverse.removeLast()
                 }
                 
@@ -198,17 +189,12 @@ class ParticleFilter: NSObject, Observable, Observer {
             }
             
             
-
-//            let endTime = NSDate().timeIntervalSinceDate(startTime)
-//            println("ParticleFilter Duration: \(endTime)")
-            
             // MainThread: set particles and notify Observers
             let updateOp = NSBlockOperation(block: {
                 self.startTimer()
                 self.particleSet = particlesT // -> notifyObservers
             })
             NSOperationQueue.mainQueue().addOperation(updateOp)
-            
         })
     }
     
