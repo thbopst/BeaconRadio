@@ -12,33 +12,25 @@ class ParticleFilter: NSObject, Observable, Observer {
     
     let map: Map
     
-    private let runFilterTimeInterval = 1.0
-    private var runFilterTimer: NSTimer?
-    private lazy var operationQueue: NSOperationQueue = {
-        let queue = NSOperationQueue()
-        queue.qualityOfService = .UserInitiated
-        return queue
-    }()
-    
     private let particleSetSize = 200
     private var particleSet: [Particle] = [] {
         didSet {
             notifyObservers()
         }
     }
-    private let desiredParticleDiversity = 0.20 // in %
+    private let desiredParticleDiversity = 0.20 // in % [0,1]
     
     private lazy var beaconRadar: IBeaconRadar = BeaconRadarFactory.beaconRadar
     
     private var motionModel: MotionModel
     private lazy var measurementModel = MeasurementModel()
+    
     private var _isRunning = false
     var isRunning: Bool {
         get {
             return _isRunning
         }
     }
-    
     
     var particles: [Particle] {
         get {
@@ -81,18 +73,11 @@ class ParticleFilter: NSObject, Observable, Observer {
         self._isRunning = true
     }
     
-    private func startTimer() {
-        // setup NSTimer
-        runFilterTimer = NSTimer(timeInterval: runFilterTimeInterval, target: self, selector: "mcl", userInfo: nil, repeats: false)
-        NSRunLoop.mainRunLoop().addTimer(runFilterTimer!, forMode: NSRunLoopCommonModes)
-    }
-    
     func stopLocalization() {
         
         self._isRunning = false
         
-        runFilterTimer?.invalidate()
-        runFilterTimer = nil
+        self.beaconRadar.removeObserver(self)
         
         self.motionModel.stopMotionTracking()
         self.measurementModel.stopBeaconRanging()
@@ -104,98 +89,91 @@ class ParticleFilter: NSObject, Observable, Observer {
         
         var particlesT = self.particles // copies particleset
         
-        self.operationQueue.addOperationWithBlock({
-            
-            // Distance measurements to Beacons
-            var z_reverse = self.measurementModel.measurements.reverse()
-            self.measurementModel.resetMeasurementStore()
-            
-            // motions
-            var u_reverse = self.motionModel.latestMotions.reverse()
-            self.motionModel.resetMotionStore()
-            
+        // Distance measurements to Beacons
+        var z_reverse = self.measurementModel.measurements.reverse()
+        self.measurementModel.resetMeasurementStore()
+        
+        // motions
+        var u_reverse = self.motionModel.latestMotions.reverse()
+        self.motionModel.resetMotionStore()
+        
 
-            while !u_reverse.isEmpty && !z_reverse.isEmpty {
-                
-                let u_k: MotionModel.Motion = u_reverse.last!
-                let z_k: MeasurementModel.Measurement = z_reverse.last!
-                
-                let compResult = u_k.endDate.compare(z_k.timestamp)
-                
-                if compResult == NSComparisonResult.OrderedAscending {
-                    
-                    // u_k.end <= z_k.timestamp => add to list
-                    particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
-                    u_reverse.removeLast()
-                    
-                } else if compResult == NSComparisonResult.OrderedSame {
-                  
-                    particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
-                    u_reverse.removeLast()
-                    // filter
-                    particlesT = self.filter(particlesT, andMeasurements: z_k)
-                    z_reverse.removeLast()
-                    
-                } else if u_k.startDate.compare(z_k.timestamp) == NSComparisonResult.OrderedAscending && z_k.timestamp.compare(u_k.endDate) != NSComparisonResult.OrderedDescending {
-                    
-                    // u_k.start < z_k.timestamp && z_k.timestamp < u_k.end => split up u_k
-                    let motionDuration: NSTimeInterval = u_k.endDate.timeIntervalSinceDate(u_k.startDate)
-                    let durationUntilZ: NSTimeInterval = z_k.timestamp.timeIntervalSinceDate(u_k.startDate)
-                    
-                    // create submotion
-                    let d = u_k.distance * durationUntilZ/motionDuration
-                    let subMotion1 = MotionModel.Motion(heading: u_k.heading, distance: d, startDate: u_k.startDate, endDate: z_k.timestamp)
-                    let subMotion2 = MotionModel.Motion(heading: u_k.heading, distance: u_k.distance - d, startDate: z_k.timestamp, endDate: u_k.endDate)
-                    
-                    // integrate submotion 1 and filter
-                    particlesT = self.integrateMotion(subMotion1, intoParticleSet: particlesT)
-                    u_reverse.removeLast()
-                    
-                    // add submotion 2 to
-                    u_reverse.append(subMotion2)
-                    
-                    // filter
-                    particlesT = self.filter(particlesT, andMeasurements: z_k)
-                    z_reverse.removeLast()
-                } else {
-                    particlesT = self.filter(particlesT, andMeasurements: z_k)
-                    z_reverse.removeLast()
-                }
-            }
-
+        while !u_reverse.isEmpty && !z_reverse.isEmpty {
             
-            // just executed if u_reverse is empty or z_reverse
-            if !u_reverse.isEmpty {
-                // return residual values to motion model
-                self.motionModel.returnResidualMotions(u_reverse)
-            }
+            let u_k: MotionModel.Motion = u_reverse.last!
+            let z_k: MeasurementModel.Measurement = z_reverse.last!
             
-            // if device is Stationary => integrate sensor values, if not return them to measurement model
-            if self.motionModel.isDeviceStationary.stationary {
+            let compResult = u_k.endDate.compare(z_k.timestamp)
+            
+            if compResult == NSComparisonResult.OrderedAscending {
                 
-                while !z_reverse.isEmpty {
-                    
-                    let z_k = z_reverse.last!
-                    
-                    particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
-                    particlesT = self.filter(particlesT, andMeasurements: z_k)
-                    
-                    z_reverse.removeLast()
-                }
+                // u_k.end <= z_k.timestamp => add to list
+                particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
+                u_reverse.removeLast()
                 
+            } else if compResult == NSComparisonResult.OrderedSame {
+              
+                particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
+                u_reverse.removeLast()
+                // filter
+                particlesT = self.filter(particlesT, andMeasurements: z_k)
+                z_reverse.removeLast()
+                
+            } else if u_k.startDate.compare(z_k.timestamp) == NSComparisonResult.OrderedAscending && z_k.timestamp.compare(u_k.endDate) != NSComparisonResult.OrderedDescending {
+                
+                // u_k.start < z_k.timestamp && z_k.timestamp < u_k.end => split up u_k
+                let motionDuration: NSTimeInterval = u_k.endDate.timeIntervalSinceDate(u_k.startDate)
+                let durationUntilZ: NSTimeInterval = z_k.timestamp.timeIntervalSinceDate(u_k.startDate)
+                
+                // create submotion
+                let d = u_k.distance * durationUntilZ/motionDuration
+                let subMotion1 = MotionModel.Motion(heading: u_k.heading, distance: d, startDate: u_k.startDate, endDate: z_k.timestamp)
+                let subMotion2 = MotionModel.Motion(heading: u_k.heading, distance: u_k.distance - d, startDate: z_k.timestamp, endDate: u_k.endDate)
+                
+                // integrate submotion 1 and filter
+                particlesT = self.integrateMotion(subMotion1, intoParticleSet: particlesT)
+                u_reverse.removeLast()
+                
+                // add submotion 2 to
+                u_reverse.append(subMotion2)
+                
+                // filter
+                particlesT = self.filter(particlesT, andMeasurements: z_k)
+                z_reverse.removeLast()
             } else {
-                // return residual values to measurement model
-                self.measurementModel.returnResidualMeasurements(z_reverse)
+                particlesT = self.filter(particlesT, andMeasurements: z_k)
+                z_reverse.removeLast()
+            }
+        }
+
+        
+        // integrate residual motions
+        while !u_reverse.isEmpty {
+            let u_k: MotionModel.Motion = u_reverse.last!
+            particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
+            u_reverse.removeLast()
+        }
+        
+        // if device is Stationary => integrate sensor values, if not return them to measurement model
+        if self.motionModel.isDeviceStationary.stationary {
+            
+            while !z_reverse.isEmpty {
+                
+                let z_k = z_reverse.last!
+                
+                particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
+                particlesT = self.filter(particlesT, andMeasurements: z_k)
+                
+                z_reverse.removeLast()
             }
             
-            
-            // MainThread: set particles and notify Observers
-            let updateOp = NSBlockOperation(block: {
-                self.startTimer()
-                self.particleSet = particlesT // -> notifyObservers
-            })
-            NSOperationQueue.mainQueue().addOperation(updateOp)
-        })
+        } else {
+            // return residual values to measurement model
+            self.measurementModel.returnResidualMeasurements(z_reverse)
+        }
+        
+        self.particleSet = particlesT // -> notifyObservers
+
     }
     
     private func integrateMotion(u: MotionModel.Motion, intoParticleSet particles: [Particle]) -> [Particle] {
@@ -348,31 +326,12 @@ class ParticleFilter: NSObject, Observable, Observer {
         return particles
     }
     
-    private func generateParticleSet() -> [Particle] {
-        return generateParticleSetWithSize(self.particleSetSize, xMin: 0, xMax: self.map.size.x, yMin: 0, yMax: self.map.size.y)
-    }
-    
-    private func generateParticleSetWithSize(size: Int, xMin: Double, xMax: Double, yMin: Double, yMax: Double) -> [Particle] {
-        
-        var particles: [Particle] = []
-        
-        if 0 <= xMin && xMin < xMax && 0 <= yMin && yMin < yMax {
-            while particles.count < size {
-                
-                // add random particle
-                particles.append(generateRandomParticle(xMin: xMin, xMax: xMax, yMin: yMin, yMax: yMax))
-            }
-        }
-        
-        return particles
-    }
-    
-    // returns particle that fits to the map's free space
     private func generateRandomParticle() -> Particle {
-        return generateRandomParticle(xMin: 0, xMax: self.map.size.x, yMin: 0, yMax: self.map.size.y)
-    }
-    
-    private func generateRandomParticle(#xMin: Double, xMax: Double, yMin: Double, yMax: Double) -> Particle {
+        
+        let xMin: Double = 0
+        let xMax:Double = self.map.size.x
+        let yMin: Double = 0
+        let yMax: Double = self.map.size.y
         
         var x = 0.0
         var y = 0.0
@@ -397,15 +356,20 @@ class ParticleFilter: NSObject, Observable, Observer {
         
         let beacons = self.beaconRadar.getBeacons().sorted({$0.accuracy < $1.accuracy})
         
-        let particles = generateParticlesAroundBeacons(beacons)
-        
-        if self.particleSet.isEmpty && !particles.isEmpty {
-            self.beaconRadar.removeObserver(self)
-            self.particleSet = particles
+        // particle set empty => generation
+        if self.particleSet.isEmpty && !beacons.isEmpty {
+            
+            let particles = generateParticlesAroundBeacons(beacons)
+            if !particles.isEmpty {
+                self.particleSet = particles // -> notifies observers
+            }
+            
         } else {
-            self.beaconRadar.removeObserver(self)
+            // mcl
+            NSOperationQueue.mainQueue().addOperationWithBlock({
+                self.mcl()
+            })
         }
-        startTimer()
     }
     
     
