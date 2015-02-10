@@ -149,9 +149,15 @@ class ParticleFilter: NSObject, Observable, Observer {
         
         // integrate residual motions
         while !u_reverse.isEmpty {
+            
+            // integrate motion
             let u_k: MotionModel.Motion = u_reverse.last!
-            particlesT = self.integrateMotion(u_k, intoParticleSet: particlesT)
+            let p = self.integrateMotion(u_k, intoParticleSet: particlesT)
             u_reverse.removeLast()
+            
+            // filter just with map (without measurements)
+            let emptyMeasurement = (timestamp: NSDate(), z: [String:Double]())
+            particlesT = self.filter(p, andMeasurements: emptyMeasurement)
         }
         
         // if device is Stationary => integrate sensor values, if not return them to measurement model
