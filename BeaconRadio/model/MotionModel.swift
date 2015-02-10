@@ -303,12 +303,12 @@ class MotionModel: MotionTrackerDelegate {
         var i = 0
         
         do {
-            var sigma_rot = Angle.deg2Rad(30.0) // degree
-            var sigma_trans = 0.5 * u.distance // m
+            var sigma_rot = Angle.deg2Rad(20.0) // degree 30, 15
+            var sigma_trans = 0.3 * u.distance // m 0.5 * u.distance, 0.25
             
             if u.distance == 0.0 {
                 sigma_rot = M_PI
-                sigma_trans = 0.5
+                sigma_trans = 0.3 // 0.5, 0.25
             }
             
             var h = u.heading - Random.sample_normal_distribution(sigma_rot)

@@ -49,14 +49,17 @@ class MeasurementModel: Observer {
         var z: Measurement = (timestamp: NSDate(), z: [String:Double]())
         
         for beacon in BeaconRadarFactory.beaconRadar.getBeacons() {
-            if (beacon.accuracy >= 0) {
+            if (beacon.accuracy >= 0 && beacon.accuracy < 5.0) { // 5, 6, (> 7 nicht so gut)
                 
                 let id = "\(beacon.proximityUUID.UUIDString):\(beacon.major):\(beacon.minor)"
 
                 z.z[id] = beacon.accuracy
             }
         }
-        self.beaconsInRange.append(z)
+        
+        if z.z.count > 0 {
+            self.beaconsInRange.append(z)
+        }
     }
     
     
@@ -74,9 +77,8 @@ class MeasurementModel: Observer {
                     let diffY = lm.y - particle.y
                     
                     let d = sqrt( (diffX * diffX) + (diffY * diffY) )
-                    //                    let sigma_d = max(0.3131 * d + 0.0051, 0.5) // standard deviation
-                    let sigma_d = 0.25 * d // standard deviation
-                    //                    let sigma_d_2 = pow(sigma_d, 2) // variance
+
+                    let sigma_d = 0.25 * d // standard deviation [0.25 -0.5] nicht schlecht
                     
                     let d_measurment = beaconsInRange[bID]!
                     
@@ -88,8 +90,6 @@ class MeasurementModel: Observer {
                 }
             }
         }
-        
-        
         
         return weight
     }
