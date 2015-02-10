@@ -163,15 +163,22 @@ class ParticleFilter: NSObject, Observable, Observer {
         // if device is Stationary => integrate sensor values, if not return them to measurement model
         if self.motionModel.isDeviceStationary.stationary {
             
-            while !z_reverse.isEmpty {
+            
+            // integrate measurement if no distance was measured until now
+            // or if last distance measurement is more than 2.7 seconds ago
+            let ts_latesDistance = self.motionModel.timestampOfLatestDistanceMeasurment()
+            
+            if ts_latesDistance == nil ||  NSDate().timeIntervalSinceDate(ts_latesDistance!) > 2.7 {
                 
-                let z_k = z_reverse.last!
-                
-                particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
-                particlesT = self.filter(particlesT, andMeasurements: z_k)
-                
-                z_reverse.removeLast()
+                while !z_reverse.isEmpty {
+                    let z_k = z_reverse.last!
+                    particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
+                    particlesT = self.filter(particlesT, andMeasurements: z_k)
+                    
+                    z_reverse.removeLast()
+                }
             }
+            
             
         } else {
             // return residual values to measurement model

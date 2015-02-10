@@ -92,6 +92,10 @@ class MotionModel: MotionTrackerDelegate {
         }
     }
     
+    func timestampOfLatestDistanceMeasurment() -> NSDate? {
+        return self.latestDistanceMeasurement?.timestamp
+    }
+    
     func resetMotionStore() {
         self.motionStore_pf.removeAll(keepCapacity: true)
     }
