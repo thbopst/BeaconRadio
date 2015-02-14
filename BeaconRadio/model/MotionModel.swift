@@ -27,7 +27,7 @@ class MotionModel: MotionTrackerDelegate {
         }
     }
     
-    private let motionTracker = MotionTrackerFactory.motionTracker
+    private let motionTracker: IMotionTracker = MotionTracker()
     private let map: Map
     
     private var latestHeading: (timestamp: NSDate, heading: Double)?

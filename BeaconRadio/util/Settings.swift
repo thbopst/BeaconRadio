@@ -25,6 +25,5 @@ class Settings {
     private init() {}
     
     // MARK: Settings
-    let simulation = true
     let simulationDataPrefix = "2015-02-07_17-54" //"2015-02-07_17-44" (ok foyer) // "2015-02-07_17-54" (gut, Foyer)
 }

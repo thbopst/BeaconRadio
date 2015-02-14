@@ -9,53 +9,38 @@
 import Foundation
 import CoreLocation
 
-class BeaconRadarSimulator: IBeaconRadar, DataPlayerDelegate {
+class BeaconRadar: IBeaconRadar, DataPlayerDelegate {
     
-    private var observers = NSMutableSet()
     let dataPlayer = DataPlayer()
     private var isRanging = false
-    private var rangedBeacons = Dictionary<String, Beacon>()
     
-    required init(uuid: NSUUID) {
-
-    }
+    var delegate: BeaconRadarDelegate?
     
-    func isAuthorized()->Bool {
+    required init(uuid: NSUUID) {}
+    
+    func isAuthorized() -> Bool {
         return true
     }
-    
+
     func isRangingAvailable() -> Bool {
         return true
     }
     
-    func getBeacons() -> [Beacon] {
-        return self.rangedBeacons.values.array
-    }
-    
-    func getBeacon(beaconID: BeaconID) -> Beacon? { // Deprecated
-        return rangedBeacons[beaconID.description()]
-    }
-    
-    func getBeacon(beaconID: String) -> Beacon? {
-        return rangedBeacons[beaconID]
-    }
-    
-    
-    private func start() {
+    func startRanging() {
         isRanging = true
         
         self.dataPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(Settings.sharedInstance.simulationDataPrefix)_Beacon.csv")! , error: nil)
         self.dataPlayer.playback(self)
     }
-    
-    private func stop() {
+
+    func stopRanging() {
         isRanging = false
     }
     
     // MARK: DataPlayerDelegate
     func dataPlayer(player: DataPlayer, handleData data: [[String:String]]) {
         
-        var beacons = [String:Beacon]()
+        var beacons = [Beacon]()
         
         for d in data {
             let uuid = NSUUID(UUIDString: d["uuid"]!)
@@ -73,34 +58,14 @@ class BeaconRadarSimulator: IBeaconRadar, DataPlayerDelegate {
                 accuracy: accuracy,
                 rssi: rssi)
             
-            beacons[b.identifier] = b
+            beacons.append(b)
         }
         
-        self.rangedBeacons = beacons
-        notifyObservers()
-    }
-    
-    // MARK: Observable
-    
-    func addObserver(o: Observer) {
-        observers.addObject(o)
-        
-        if !isRanging {
-            start()
+        if self.isRanging {
+            if let delegate = self.delegate {
+                delegate.beaconRadar(self, didRangeBeacons: beacons)
+            }
         }
     }
-    
-    func removeObserver(o: Observer) {
-        observers.removeObject(o)
-        
-        if observers.count == 0  && isRanging  {
-            stop()
-        }
-    }
-    
-    func notifyObservers() {
-        for observer in observers {
-            observer.update()
-        }
-    }
+
 }

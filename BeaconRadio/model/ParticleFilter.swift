@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ParticleFilter: NSObject, Observable, Observer {
+class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     
     let map: Map
     
@@ -19,11 +19,9 @@ class ParticleFilter: NSObject, Observable, Observer {
         }
     }
     private let desiredParticleDiversity = 0.20 // in % [0,1]
-    
-    private lazy var beaconRadar: IBeaconRadar = BeaconRadarFactory.beaconRadar
-    
+        
     private var motionModel: MotionModel
-    private lazy var measurementModel = MeasurementModel()
+    private let measurementModel: MeasurementModel
     
     private var _isRunning = false
     var isRunning: Bool {
@@ -55,9 +53,15 @@ class ParticleFilter: NSObject, Observable, Observer {
     
     
     init(map: Map) {
+        
+        let mm = MeasurementModel()
+        self.measurementModel = mm
+        
+        
         self.map = map
         self.motionModel = MotionModel(map: map)
         super.init()
+        mm.delegate = self
     }
     
     func startLocalization() {
@@ -68,7 +72,6 @@ class ParticleFilter: NSObject, Observable, Observer {
         
         // register for beacon updates and wait until first beacons are received
         // particle generation around beacons
-        self.beaconRadar.addObserver(self)
         
         self._isRunning = true
     }
@@ -76,8 +79,6 @@ class ParticleFilter: NSObject, Observable, Observer {
     func stopLocalization() {
         
         self._isRunning = false
-        
-        self.beaconRadar.removeObserver(self)
         
         self.motionModel.stopMotionTracking()
         self.measurementModel.stopBeaconRanging()
@@ -101,7 +102,7 @@ class ParticleFilter: NSObject, Observable, Observer {
         while !u_reverse.isEmpty && !z_reverse.isEmpty {
             
             let u_k: MotionModel.Motion = u_reverse.last!
-            let z_k: MeasurementModel.Measurement = z_reverse.last!
+            let z_k: Measurement = z_reverse.last!
             
             let compResult = u_k.endDate.compare(z_k.timestamp)
             
@@ -194,7 +195,7 @@ class ParticleFilter: NSObject, Observable, Observer {
         return particles.map({p in MotionModel.sampleParticlePoseForPose(p, withMotion: u, andMap: self.map)})
     }
     
-    private func filter(particles_tMinus1: [Particle], andMeasurements z: MeasurementModel.Measurement) -> [Particle] {
+    private func filter(particles_tMinus1: [Particle], andMeasurements z: Measurement) -> [Particle] {
 
         // Sample motion + weight particles
         var weightedParticleSet: [(weight: Double,particle: Particle)] = []
@@ -364,10 +365,10 @@ class ParticleFilter: NSObject, Observable, Observer {
     
     // MARK: Observer protocol - BeaconRadio
     
-    func update() {
+    func measurmenetModel(model: MeasurementModel, didObserveMeasurement beacons: [Beacon]) {
         // get Beacons ordered by accuracy ascending
         
-        let beacons = self.beaconRadar.getBeacons().sorted({$0.accuracy < $1.accuracy})
+        let beacons = beacons.sorted({$0.accuracy < $1.accuracy})
         
         // particle set empty => generation
         if self.particleSet.isEmpty && !beacons.isEmpty {

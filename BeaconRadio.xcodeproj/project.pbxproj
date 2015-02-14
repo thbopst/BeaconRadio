@@ -10,6 +10,46 @@
 		E013884A1A1B455600CB1999 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
 		E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
 		E0181F7F1A10CAB8003D9E2D /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */; };
+		E037FAED1A8B973900B0EEC6 /* DataPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D091A1F32AF008DBAA1 /* DataPlayer.swift */; };
+		E037FAEE1A8B973900B0EEC6 /* ParticleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04F6B671A08E5A100C7F78E /* ParticleFilter.swift */; };
+		E037FAEF1A8B973900B0EEC6 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461071A03FAAA0026E002 /* Particle.swift */; };
+		E037FAF01A8B973900B0EEC6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0754E341A443E75005EA7F2 /* Settings.swift */; };
+		E037FAF21A8B973900B0EEC6 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633619E549ED00C0A3D0 /* Observer.swift */; };
+		E037FAF51A8B973900B0EEC6 /* DataLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D071A1F329C008DBAA1 /* DataLogger.swift */; };
+		E037FAF61A8B973900B0EEC6 /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */; };
+		E037FAF71A8B973900B0EEC6 /* Pose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CD1A13802C0073EFAC /* Pose.swift */; };
+		E037FAF81A8B973900B0EEC6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633519E549ED00C0A3D0 /* Observable.swift */; };
+		E037FAFF1A8B973900B0EEC6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8A9641A123141003FC9EE /* Random.swift */; };
+		E037FB001A8B973900B0EEC6 /* Heading.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DC8E21A84B7D30082FAE1 /* Heading.swift */; };
+		E037FB021A8B973900B0EEC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040632819E549ED00C0A3D0 /* AppDelegate.swift */; };
+		E037FB041A8B973900B0EEC6 /* ParticleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461051A03FA5D0026E002 /* ParticleMapView.swift */; };
+		E037FB051A8B973900B0EEC6 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CB1A1365C90073EFAC /* Angle.swift */; };
+		E037FB071A8B973900B0EEC6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
+		E037FB081A8B973900B0EEC6 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCEC101A1606980035BB35 /* NormalDistribution.swift */; };
+		E037FB0A1A8B973900B0EEC6 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
+		E037FB0B1A8B973900B0EEC6 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D111A236E10008DBAA1 /* Util.swift */; };
+		E037FB0D1A8B973900B0EEC6 /* ParticleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FF1A02AD070026E002 /* ParticleMapViewController.swift */; };
+		E037FB0F1A8B973900B0EEC6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E040631119E3BCD900C0A3D0 /* CoreLocation.framework */; };
+		E037FB101A8B973900B0EEC6 /* libPods-BeaconRadio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 096DBBE9DC6CC1E4D7CE2CE3 /* libPods-BeaconRadio.a */; };
+		E037FB121A8B973900B0EEC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E040632F19E549ED00C0A3D0 /* Images.xcassets */; };
+		E037FB131A8B973900B0EEC6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E040632919E549ED00C0A3D0 /* LaunchScreen.xib */; };
+		E037FB141A8B973900B0EEC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E040632B19E549ED00C0A3D0 /* Main.storyboard */; };
+		E037FB311A8BB65400B0EEC6 /* BeaconRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB2D1A8BB65400B0EEC6 /* BeaconRadar.swift */; };
+		E037FB331A8BB65400B0EEC6 /* IBeaconRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB2E1A8BB65400B0EEC6 /* IBeaconRadar.swift */; };
+		E037FB341A8BB65400B0EEC6 /* IBeaconRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB2E1A8BB65400B0EEC6 /* IBeaconRadar.swift */; };
+		E037FB3C1A8BB7F400B0EEC6 /* BeaconRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB3B1A8BB7F400B0EEC6 /* BeaconRadar.swift */; };
+		E037FB411A8BC12E00B0EEC6 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB3E1A8BC12E00B0EEC6 /* Landmark.swift */; };
+		E037FB421A8BC12E00B0EEC6 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB3E1A8BC12E00B0EEC6 /* Landmark.swift */; };
+		E037FB431A8BC12E00B0EEC6 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB3F1A8BC12E00B0EEC6 /* Map.swift */; };
+		E037FB441A8BC12E00B0EEC6 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB3F1A8BC12E00B0EEC6 /* Map.swift */; };
+		E037FB451A8BC12E00B0EEC6 /* MapsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB401A8BC12E00B0EEC6 /* MapsManager.swift */; };
+		E037FB461A8BC12E00B0EEC6 /* MapsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB401A8BC12E00B0EEC6 /* MapsManager.swift */; };
+		E037FB481A8BC17800B0EEC6 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB471A8BC17800B0EEC6 /* Beacon.swift */; };
+		E037FB491A8BC17800B0EEC6 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB471A8BC17800B0EEC6 /* Beacon.swift */; };
+		E037FB501A8BC1C800B0EEC6 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB4C1A8BC1C800B0EEC6 /* MotionTracker.swift */; };
+		E037FB521A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB4D1A8BC1C800B0EEC6 /* IMotionTracker.swift */; };
+		E037FB531A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB4D1A8BC1C800B0EEC6 /* IMotionTracker.swift */; };
+		E037FB551A8BC1C800B0EEC6 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E037FB4F1A8BC1C800B0EEC6 /* MotionTracker.swift */; };
 		E03DC8E31A84B7D30082FAE1 /* Heading.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DC8E21A84B7D30082FAE1 /* Heading.swift */; };
 		E03DC8E51A84BF380082FAE1 /* HeadingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DC8E41A84BF380082FAE1 /* HeadingTest.swift */; };
 		E03DC8E61A84C0D70082FAE1 /* Heading.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03DC8E21A84B7D30082FAE1 /* Heading.swift */; };
@@ -17,36 +57,21 @@
 		E040633819E549ED00C0A3D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040632819E549ED00C0A3D0 /* AppDelegate.swift */; };
 		E040633919E549ED00C0A3D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E040632919E549ED00C0A3D0 /* LaunchScreen.xib */; };
 		E040633A19E549ED00C0A3D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E040632B19E549ED00C0A3D0 /* Main.storyboard */; };
-		E040633B19E549ED00C0A3D0 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040632E19E549ED00C0A3D0 /* BeaconViewController.swift */; };
 		E040633C19E549ED00C0A3D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E040632F19E549ED00C0A3D0 /* Images.xcassets */; };
-		E040633E19E549ED00C0A3D0 /* BeaconLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633219E549ED00C0A3D0 /* BeaconLogManager.swift */; };
-		E040633F19E549ED00C0A3D0 /* BeaconRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633319E549ED00C0A3D0 /* BeaconRadar.swift */; };
 		E040634019E549ED00C0A3D0 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633519E549ED00C0A3D0 /* Observable.swift */; };
 		E040634119E549ED00C0A3D0 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040633619E549ED00C0A3D0 /* Observer.swift */; };
-		E040635119E70AB000C0A3D0 /* BeaconDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040635019E70AB000C0A3D0 /* BeaconDetailsViewController.swift */; };
-		E040635319E7B32000C0A3D0 /* BeaconRangingChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040635219E7B32000C0A3D0 /* BeaconRangingChartViewController.swift */; };
 		E04F6B681A08E5A100C7F78E /* ParticleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04F6B671A08E5A100C7F78E /* ParticleFilter.swift */; };
 		E05551CC1A1365C90073EFAC /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CB1A1365C90073EFAC /* Angle.swift */; };
 		E05551CE1A13802C0073EFAC /* Pose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CD1A13802C0073EFAC /* Pose.swift */; };
 		E0754E351A443E75005EA7F2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0754E341A443E75005EA7F2 /* Settings.swift */; };
-		E09460FA1A0261280026E002 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460F91A0261280026E002 /* Map.swift */; };
-		E09460FC1A0261380026E002 /* MapsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FB1A0261380026E002 /* MapsManager.swift */; };
-		E09460FE1A02850F0026E002 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FD1A02850F0026E002 /* UIImage.swift */; };
 		E09461001A02AD070026E002 /* ParticleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09460FF1A02AD070026E002 /* ParticleMapViewController.swift */; };
 		E09461061A03FA5D0026E002 /* ParticleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461051A03FA5D0026E002 /* ParticleMapView.swift */; };
 		E09461081A03FAAA0026E002 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461071A03FAAA0026E002 /* Particle.swift */; };
 		E0D1ED681A84D7D50054D847 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CB1A1365C90073EFAC /* Angle.swift */; };
 		E0E09D081A1F329C008DBAA1 /* DataLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D071A1F329C008DBAA1 /* DataLogger.swift */; };
 		E0E09D0A1A1F32AF008DBAA1 /* DataPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D091A1F32AF008DBAA1 /* DataPlayer.swift */; };
-		E0E09D0C1A21D48B008DBAA1 /* BeaconRadarFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D0B1A21D48B008DBAA1 /* BeaconRadarFactory.swift */; };
-		E0E09D0E1A232BB8008DBAA1 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D0D1A232BB8008DBAA1 /* Beacon.swift */; };
-		E0E09D101A233146008DBAA1 /* BeaconRadarSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D0F1A233146008DBAA1 /* BeaconRadarSimulator.swift */; };
 		E0E09D121A236E10008DBAA1 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D111A236E10008DBAA1 /* Util.swift */; };
-		E0E09D141A2385C8008DBAA1 /* MotionTrackerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D131A2385C8008DBAA1 /* MotionTrackerFactory.swift */; };
-		E0E09D161A2386BF008DBAA1 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D151A2386BF008DBAA1 /* MotionTracker.swift */; };
-		E0E09D181A2386D0008DBAA1 /* MotionTrackerSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D171A2386D0008DBAA1 /* MotionTrackerSimulator.swift */; };
 		E0E8A9651A123141003FC9EE /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E8A9641A123141003FC9EE /* Random.swift */; };
-		E0FCEC0F1A15F1F60035BB35 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCEC0E1A15F1F60035BB35 /* Landmark.swift */; };
 		E0FCEC111A1606980035BB35 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCEC101A1606980035BB35 /* NormalDistribution.swift */; };
 		FAA8A0DDB4263D024491547F /* libPods-BeaconRadio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 096DBBE9DC6CC1E4D7CE2CE3 /* libPods-BeaconRadio.a */; };
 /* End PBXBuildFile section */
@@ -89,6 +114,18 @@
 		E01388491A1B455600CB1999 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionModel.swift; sourceTree = "<group>"; };
 		E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementModel.swift; sourceTree = "<group>"; };
+		E037FB191A8B973900B0EEC6 /* BeaconRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E037FB1A1A8B973A00B0EEC6 /* BeaconRadioSimulator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BeaconRadioSimulator-Info.plist"; path = "/Users/thbopst/Documents/Studium/MSI_HTWG-Konstanz/Masterthesis/app/BeaconRadio/BeaconRadioSimulator-Info.plist"; sourceTree = "<absolute>"; };
+		E037FB2D1A8BB65400B0EEC6 /* BeaconRadar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadar.swift; sourceTree = "<group>"; };
+		E037FB2E1A8BB65400B0EEC6 /* IBeaconRadar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBeaconRadar.swift; sourceTree = "<group>"; };
+		E037FB3B1A8BB7F400B0EEC6 /* BeaconRadar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadar.swift; sourceTree = "<group>"; };
+		E037FB3E1A8BC12E00B0EEC6 /* Landmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
+		E037FB3F1A8BC12E00B0EEC6 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		E037FB401A8BC12E00B0EEC6 /* MapsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsManager.swift; sourceTree = "<group>"; };
+		E037FB471A8BC17800B0EEC6 /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
+		E037FB4C1A8BC1C800B0EEC6 /* MotionTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
+		E037FB4D1A8BC1C800B0EEC6 /* IMotionTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMotionTracker.swift; sourceTree = "<group>"; };
+		E037FB4F1A8BC1C800B0EEC6 /* MotionTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
 		E03DC8E21A84B7D30082FAE1 /* Heading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Heading.swift; sourceTree = "<group>"; };
 		E03DC8E41A84BF380082FAE1 /* HeadingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadingTest.swift; sourceTree = "<group>"; };
 		E04062EA19E3BC8B00C0A3D0 /* BeaconRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,42 +134,36 @@
 		E040632819E549ED00C0A3D0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E040632A19E549ED00C0A3D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E040632C19E549ED00C0A3D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E040632E19E549ED00C0A3D0 /* BeaconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 		E040632F19E549ED00C0A3D0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E040633019E549ED00C0A3D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E040633219E549ED00C0A3D0 /* BeaconLogManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconLogManager.swift; sourceTree = "<group>"; };
-		E040633319E549ED00C0A3D0 /* BeaconRadar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadar.swift; sourceTree = "<group>"; };
 		E040633519E549ED00C0A3D0 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		E040633619E549ED00C0A3D0 /* Observer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		E040634419E54A0A00C0A3D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E040635019E70AB000C0A3D0 /* BeaconDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconDetailsViewController.swift; sourceTree = "<group>"; };
-		E040635219E7B32000C0A3D0 /* BeaconRangingChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRangingChartViewController.swift; sourceTree = "<group>"; };
 		E040635419E7C17C00C0A3D0 /* BeaconRadio-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BeaconRadio-Bridging-Header.h"; sourceTree = "<group>"; };
 		E04F6B671A08E5A100C7F78E /* ParticleFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleFilter.swift; sourceTree = "<group>"; };
 		E05551CB1A1365C90073EFAC /* Angle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		E05551CD1A13802C0073EFAC /* Pose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pose.swift; sourceTree = "<group>"; };
 		E0754E341A443E75005EA7F2 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		E09460F91A0261280026E002 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
-		E09460FB1A0261380026E002 /* MapsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsManager.swift; sourceTree = "<group>"; };
-		E09460FD1A02850F0026E002 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		E09460FF1A02AD070026E002 /* ParticleMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleMapViewController.swift; sourceTree = "<group>"; };
 		E09461051A03FA5D0026E002 /* ParticleMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticleMapView.swift; sourceTree = "<group>"; };
 		E09461071A03FAAA0026E002 /* Particle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		E0E09D071A1F329C008DBAA1 /* DataLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLogger.swift; sourceTree = "<group>"; };
 		E0E09D091A1F32AF008DBAA1 /* DataPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlayer.swift; sourceTree = "<group>"; };
-		E0E09D0B1A21D48B008DBAA1 /* BeaconRadarFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadarFactory.swift; sourceTree = "<group>"; };
-		E0E09D0D1A232BB8008DBAA1 /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
-		E0E09D0F1A233146008DBAA1 /* BeaconRadarSimulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadarSimulator.swift; sourceTree = "<group>"; };
 		E0E09D111A236E10008DBAA1 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		E0E09D131A2385C8008DBAA1 /* MotionTrackerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionTrackerFactory.swift; sourceTree = "<group>"; };
-		E0E09D151A2386BF008DBAA1 /* MotionTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
-		E0E09D171A2386D0008DBAA1 /* MotionTrackerSimulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionTrackerSimulator.swift; sourceTree = "<group>"; };
 		E0E8A9641A123141003FC9EE /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		E0FCEC0E1A15F1F60035BB35 /* Landmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		E0FCEC101A1606980035BB35 /* NormalDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E037FB0E1A8B973900B0EEC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E037FB0F1A8B973900B0EEC6 /* CoreLocation.framework in Frameworks */,
+				E037FB101A8B973900B0EEC6 /* libPods-BeaconRadio.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E04062E719E3BC8B00C0A3D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -169,6 +200,69 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E037FB2B1A8BB65400B0EEC6 /* BeaconRadar */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB471A8BC17800B0EEC6 /* Beacon.swift */,
+				E037FB2E1A8BB65400B0EEC6 /* IBeaconRadar.swift */,
+				E037FB2C1A8BB65400B0EEC6 /* Hardware */,
+				E037FB3A1A8BB7F400B0EEC6 /* Simulator */,
+			);
+			path = BeaconRadar;
+			sourceTree = "<group>";
+		};
+		E037FB2C1A8BB65400B0EEC6 /* Hardware */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB2D1A8BB65400B0EEC6 /* BeaconRadar.swift */,
+			);
+			path = Hardware;
+			sourceTree = "<group>";
+		};
+		E037FB3A1A8BB7F400B0EEC6 /* Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB3B1A8BB7F400B0EEC6 /* BeaconRadar.swift */,
+			);
+			path = Simulator;
+			sourceTree = "<group>";
+		};
+		E037FB3D1A8BC12E00B0EEC6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB3E1A8BC12E00B0EEC6 /* Landmark.swift */,
+				E037FB3F1A8BC12E00B0EEC6 /* Map.swift */,
+				E037FB401A8BC12E00B0EEC6 /* MapsManager.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		E037FB4A1A8BC1C800B0EEC6 /* MotionTracker */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB4D1A8BC1C800B0EEC6 /* IMotionTracker.swift */,
+				E037FB4B1A8BC1C800B0EEC6 /* Hardware */,
+				E037FB4E1A8BC1C800B0EEC6 /* Simulator */,
+			);
+			path = MotionTracker;
+			sourceTree = "<group>";
+		};
+		E037FB4B1A8BC1C800B0EEC6 /* Hardware */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB4C1A8BC1C800B0EEC6 /* MotionTracker.swift */,
+			);
+			path = Hardware;
+			sourceTree = "<group>";
+		};
+		E037FB4E1A8BC1C800B0EEC6 /* Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				E037FB4F1A8BC1C800B0EEC6 /* MotionTracker.swift */,
+			);
+			path = Simulator;
+			sourceTree = "<group>";
+		};
 		E04062E119E3BC8B00C0A3D0 = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +280,7 @@
 			children = (
 				E04062EA19E3BC8B00C0A3D0 /* BeaconRadio.app */,
 				E040630119E3BC8B00C0A3D0 /* BeaconRadioTests.xctest */,
+				E037FB191A8B973900B0EEC6 /* BeaconRadio.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,9 +302,6 @@
 		E040632D19E549ED00C0A3D0 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E040635019E70AB000C0A3D0 /* BeaconDetailsViewController.swift */,
-				E040635219E7B32000C0A3D0 /* BeaconRangingChartViewController.swift */,
-				E040632E19E549ED00C0A3D0 /* BeaconViewController.swift */,
 				E09460FF1A02AD070026E002 /* ParticleMapViewController.swift */,
 			);
 			path = controllers;
@@ -218,19 +310,11 @@
 		E040633119E549ED00C0A3D0 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				E0E09D0D1A232BB8008DBAA1 /* Beacon.swift */,
-				E040633219E549ED00C0A3D0 /* BeaconLogManager.swift */,
-				E040633319E549ED00C0A3D0 /* BeaconRadar.swift */,
-				E0E09D0B1A21D48B008DBAA1 /* BeaconRadarFactory.swift */,
-				E0E09D0F1A233146008DBAA1 /* BeaconRadarSimulator.swift */,
-				E0FCEC0E1A15F1F60035BB35 /* Landmark.swift */,
-				E09460F91A0261280026E002 /* Map.swift */,
-				E09460FB1A0261380026E002 /* MapsManager.swift */,
+				E037FB4A1A8BC1C800B0EEC6 /* MotionTracker */,
+				E037FB3D1A8BC12E00B0EEC6 /* Map */,
+				E037FB2B1A8BB65400B0EEC6 /* BeaconRadar */,
 				E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */,
 				E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */,
-				E0E09D151A2386BF008DBAA1 /* MotionTracker.swift */,
-				E0E09D131A2385C8008DBAA1 /* MotionTrackerFactory.swift */,
-				E0E09D171A2386D0008DBAA1 /* MotionTrackerSimulator.swift */,
 				E09461071A03FAAA0026E002 /* Particle.swift */,
 				E04F6B671A08E5A100C7F78E /* ParticleFilter.swift */,
 				E05551CD1A13802C0073EFAC /* Pose.swift */,
@@ -249,7 +333,6 @@
 				E040633519E549ED00C0A3D0 /* Observable.swift */,
 				E040633619E549ED00C0A3D0 /* Observer.swift */,
 				E0E8A9641A123141003FC9EE /* Random.swift */,
-				E09460FD1A02850F0026E002 /* UIImage.swift */,
 				E0E09D111A236E10008DBAA1 /* Util.swift */,
 				E0754E341A443E75005EA7F2 /* Settings.swift */,
 				E03DC8E21A84B7D30082FAE1 /* Heading.swift */,
@@ -277,6 +360,7 @@
 		E040634D19E58DB200C0A3D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E037FB1A1A8B973A00B0EEC6 /* BeaconRadioSimulator-Info.plist */,
 				E040632919E549ED00C0A3D0 /* LaunchScreen.xib */,
 				E040632B19E549ED00C0A3D0 /* Main.storyboard */,
 				E040632F19E549ED00C0A3D0 /* Images.xcassets */,
@@ -288,6 +372,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E037FAE91A8B973900B0EEC6 /* BeaconRadioSimulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E037FB161A8B973900B0EEC6 /* Build configuration list for PBXNativeTarget "BeaconRadioSimulator" */;
+			buildPhases = (
+				E037FAEA1A8B973900B0EEC6 /* Check Pods Manifest.lock */,
+				E037FAEB1A8B973900B0EEC6 /* Sources */,
+				E037FB0E1A8B973900B0EEC6 /* Frameworks */,
+				E037FB111A8B973900B0EEC6 /* Resources */,
+				E037FB151A8B973900B0EEC6 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeaconRadioSimulator;
+			productName = IndoorLocalization;
+			productReference = E037FB191A8B973900B0EEC6 /* BeaconRadio.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E04062E919E3BC8B00C0A3D0 /* BeaconRadio */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E040630B19E3BC8B00C0A3D0 /* Build configuration list for PBXNativeTarget "BeaconRadio" */;
@@ -362,11 +465,22 @@
 			targets = (
 				E04062E919E3BC8B00C0A3D0 /* BeaconRadio */,
 				E040630019E3BC8B00C0A3D0 /* BeaconRadioTests */,
+				E037FAE91A8B973900B0EEC6 /* BeaconRadioSimulator */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E037FB111A8B973900B0EEC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E037FB121A8B973900B0EEC6 /* Images.xcassets in Resources */,
+				E037FB131A8B973900B0EEC6 /* LaunchScreen.xib in Resources */,
+				E037FB141A8B973900B0EEC6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E04062E819E3BC8B00C0A3D0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -417,47 +531,104 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BeaconRadio/Pods-BeaconRadio-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E037FAEA1A8B973900B0EEC6 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E037FB151A8B973900B0EEC6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BeaconRadio/Pods-BeaconRadio-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E037FAEB1A8B973900B0EEC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E037FAED1A8B973900B0EEC6 /* DataPlayer.swift in Sources */,
+				E037FAEE1A8B973900B0EEC6 /* ParticleFilter.swift in Sources */,
+				E037FAEF1A8B973900B0EEC6 /* Particle.swift in Sources */,
+				E037FAF01A8B973900B0EEC6 /* Settings.swift in Sources */,
+				E037FAF21A8B973900B0EEC6 /* Observer.swift in Sources */,
+				E037FAF51A8B973900B0EEC6 /* DataLogger.swift in Sources */,
+				E037FAF61A8B973900B0EEC6 /* MeasurementModel.swift in Sources */,
+				E037FB551A8BC1C800B0EEC6 /* MotionTracker.swift in Sources */,
+				E037FAF71A8B973900B0EEC6 /* Pose.swift in Sources */,
+				E037FAF81A8B973900B0EEC6 /* Observable.swift in Sources */,
+				E037FB491A8BC17800B0EEC6 /* Beacon.swift in Sources */,
+				E037FB531A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */,
+				E037FAFF1A8B973900B0EEC6 /* Random.swift in Sources */,
+				E037FB001A8B973900B0EEC6 /* Heading.swift in Sources */,
+				E037FB421A8BC12E00B0EEC6 /* Landmark.swift in Sources */,
+				E037FB021A8B973900B0EEC6 /* AppDelegate.swift in Sources */,
+				E037FB041A8B973900B0EEC6 /* ParticleMapView.swift in Sources */,
+				E037FB441A8BC12E00B0EEC6 /* Map.swift in Sources */,
+				E037FB051A8B973900B0EEC6 /* Angle.swift in Sources */,
+				E037FB071A8B973900B0EEC6 /* Logger.swift in Sources */,
+				E037FB461A8BC12E00B0EEC6 /* MapsManager.swift in Sources */,
+				E037FB081A8B973900B0EEC6 /* NormalDistribution.swift in Sources */,
+				E037FB0A1A8B973900B0EEC6 /* MotionModel.swift in Sources */,
+				E037FB0B1A8B973900B0EEC6 /* Util.swift in Sources */,
+				E037FB341A8BB65400B0EEC6 /* IBeaconRadar.swift in Sources */,
+				E037FB3C1A8BB7F400B0EEC6 /* BeaconRadar.swift in Sources */,
+				E037FB0D1A8B973900B0EEC6 /* ParticleMapViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E04062E619E3BC8B00C0A3D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E040635319E7B32000C0A3D0 /* BeaconRangingChartViewController.swift in Sources */,
 				E0E09D0A1A1F32AF008DBAA1 /* DataPlayer.swift in Sources */,
 				E04F6B681A08E5A100C7F78E /* ParticleFilter.swift in Sources */,
 				E09461081A03FAAA0026E002 /* Particle.swift in Sources */,
 				E0754E351A443E75005EA7F2 /* Settings.swift in Sources */,
-				E040633E19E549ED00C0A3D0 /* BeaconLogManager.swift in Sources */,
 				E040634119E549ED00C0A3D0 /* Observer.swift in Sources */,
-				E0E09D101A233146008DBAA1 /* BeaconRadarSimulator.swift in Sources */,
-				E09460FC1A0261380026E002 /* MapsManager.swift in Sources */,
 				E0E09D081A1F329C008DBAA1 /* DataLogger.swift in Sources */,
 				E0181F7F1A10CAB8003D9E2D /* MeasurementModel.swift in Sources */,
 				E05551CE1A13802C0073EFAC /* Pose.swift in Sources */,
 				E040634019E549ED00C0A3D0 /* Observable.swift in Sources */,
-				E040633F19E549ED00C0A3D0 /* BeaconRadar.swift in Sources */,
-				E040633B19E549ED00C0A3D0 /* BeaconViewController.swift in Sources */,
-				E0E09D141A2385C8008DBAA1 /* MotionTrackerFactory.swift in Sources */,
-				E09460FA1A0261280026E002 /* Map.swift in Sources */,
-				E0E09D181A2386D0008DBAA1 /* MotionTrackerSimulator.swift in Sources */,
-				E0E09D161A2386BF008DBAA1 /* MotionTracker.swift in Sources */,
+				E037FB481A8BC17800B0EEC6 /* Beacon.swift in Sources */,
+				E037FB521A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */,
 				E0E8A9651A123141003FC9EE /* Random.swift in Sources */,
 				E03DC8E31A84B7D30082FAE1 /* Heading.swift in Sources */,
-				E0E09D0C1A21D48B008DBAA1 /* BeaconRadarFactory.swift in Sources */,
+				E037FB411A8BC12E00B0EEC6 /* Landmark.swift in Sources */,
 				E040633819E549ED00C0A3D0 /* AppDelegate.swift in Sources */,
-				E0FCEC0F1A15F1F60035BB35 /* Landmark.swift in Sources */,
 				E09461061A03FA5D0026E002 /* ParticleMapView.swift in Sources */,
+				E037FB431A8BC12E00B0EEC6 /* Map.swift in Sources */,
 				E05551CC1A1365C90073EFAC /* Angle.swift in Sources */,
-				E09460FE1A02850F0026E002 /* UIImage.swift in Sources */,
 				E013884A1A1B455600CB1999 /* Logger.swift in Sources */,
+				E037FB451A8BC12E00B0EEC6 /* MapsManager.swift in Sources */,
 				E0FCEC111A1606980035BB35 /* NormalDistribution.swift in Sources */,
-				E0E09D0E1A232BB8008DBAA1 /* Beacon.swift in Sources */,
 				E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */,
+				E037FB311A8BB65400B0EEC6 /* BeaconRadar.swift in Sources */,
 				E0E09D121A236E10008DBAA1 /* Util.swift in Sources */,
-				E040635119E70AB000C0A3D0 /* BeaconDetailsViewController.swift in Sources */,
+				E037FB331A8BB65400B0EEC6 /* IBeaconRadar.swift in Sources */,
 				E09461001A02AD070026E002 /* ParticleMapViewController.swift in Sources */,
+				E037FB501A8BC1C800B0EEC6 /* MotionTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +687,35 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E037FB171A8B973900B0EEC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 980E73A51563FD00165D0F1B /* Pods-BeaconRadio.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "BeaconRadioSimulator-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = BeaconRadio;
+				SWIFT_OBJC_BRIDGING_HEADER = "BeaconRadio/BeaconRadio-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E037FB181A8B973900B0EEC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95ABF6B9C87707F0FF76C6C5 /* Pods-BeaconRadio.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "BeaconRadioSimulator-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = BeaconRadio;
+				SWIFT_OBJC_BRIDGING_HEADER = "BeaconRadio/BeaconRadio-Bridging-Header.h";
+			};
+			name = Release;
+		};
 		E040630919E3BC8B00C0A3D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -659,6 +859,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E037FB161A8B973900B0EEC6 /* Build configuration list for PBXNativeTarget "BeaconRadioSimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E037FB171A8B973900B0EEC6 /* Debug */,
+				E037FB181A8B973900B0EEC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E04062E519E3BC8B00C0A3D0 /* Build configuration list for PBXProject "BeaconRadio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

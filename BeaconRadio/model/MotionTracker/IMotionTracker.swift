@@ -10,35 +10,6 @@ import Foundation
 import CoreMotion
 
 
-class MotionTrackerFactory {
-
-private class var _motionTracker: IMotionTracker? {
-
-    struct Static {
-        static var instance: IMotionTracker?
-        static var token: dispatch_once_t = 0
-        static let simulation = Settings.sharedInstance.simulation
-    }
-    
-    dispatch_once(&Static.token) {
-        
-        if Static.simulation {
-            Static.instance = MotionTrackerSimulator()
-        } else {
-            Static.instance = MotionTracker()
-        }
-        
-    }
-        return Static.instance!
-    }
-
-    class var motionTracker: IMotionTracker {
-        get {
-            return _motionTracker!
-        }
-    }
-}
-
 protocol IMotionTracker {
     init()
     func startMotionTracking(delegate: MotionTrackerDelegate)

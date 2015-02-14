@@ -9,7 +9,7 @@
 import Foundation
 import CoreMotion
 
-class MotionTrackerSimulator: IMotionTracker, DataPlayerDelegate {
+class MotionTracker: IMotionTracker, DataPlayerDelegate {
 
     private var delegate: MotionTrackerDelegate?
     

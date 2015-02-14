@@ -17,9 +17,6 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
     private let uuid: NSUUID
     private let beaconRegion: CLBeaconRegion
 
-    private var observers = NSMutableSet()
-
-    private var rangedBeacons = Dictionary<String, Beacon>()
     private let dataLogger = DataLogger(attributeNames: ["uuid", "major", "minor", "accuracy", "rssi", "proximity"])
     private lazy var dateFormatter: NSDateFormatter = {
         let dateFormatter = NSDateFormatter()
@@ -27,6 +24,8 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         return dateFormatter
         }()
     
+    
+    var delegate: BeaconRadarDelegate?
     
     required init(uuid: NSUUID) {
         
@@ -41,7 +40,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         }
     }
     
-    func isAuthorized()->Bool {
+    func isAuthorized() -> Bool {
         return CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse
     }
     
@@ -59,40 +58,26 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         return self.locationManager.rangedRegions.count > 0
     }
     
-    private func startRanging() {
+    func startRanging() {
         if isRangingAvailable() {
             self.locationManager.startRangingBeaconsInRegion(self.beaconRegion)
             self.dataLogger.start()
         }
     }
     
-    private func stopRanging() {
+    func stopRanging() {
         self.locationManager.stopRangingBeaconsInRegion(self.beaconRegion)
         
         if let path = Util.pathToLogfileWithName("\(self.dateFormatter.stringFromDate(NSDate()))_Beacon.csv") {
             self.dataLogger.save(dataStoragePath: path, error: nil)
         }
-        
-        
     }
-    
-    func getBeacons() -> [Beacon] {
-        return self.rangedBeacons.values.array
-    }
-    
-    func getBeacon(beaconID: BeaconID) -> Beacon? {
-        return self.rangedBeacons[beaconID.description()]
-    }
-    
-    func getBeacon(beaconID: String) -> Beacon? {
-        return self.rangedBeacons[beaconID]
-    }
-    
+
     
     // MARK: CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
         
-        self.rangedBeacons.removeAll(keepCapacity: false)
+        var rangedBeacons = [Beacon]()
         
         var log = [[String:String]]()
         
@@ -109,9 +94,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
                     rssi: clB.rssi
                 )
                 
-                self.rangedBeacons.updateValue(b, forKey: b.identifier)
-
-                
+                self.rangedBeacons.append(b
                 
                 log.append(["uuid":b.proximityUUID.UUIDString, "major":"\(b.major)", "minor":"\(b.minor)", "accuracy":"\(b.accuracy)", "rssi":"\(b.rssi)", "proximity":"\(b.proximity.rawValue)"])
             }
@@ -120,7 +103,10 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         self.dataLogger.log(log)
         
         if self.rangedBeacons.count > 0 {
-            notifyObservers()
+
+            if let delegate = self.delegate {
+                delegate.beaconRadar(self, didRangeBeacons: rangedBeacons)
+            }
         }
         
     }
@@ -137,30 +123,6 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
             startRanging()
         } else if !isAuthorized() && isRanging() {
             stopRanging()
-        }
-    }
-    
-    // MARK: Observable
-
-    func addObserver(o: Observer) {
-        observers.addObject(o)
-        
-        if isAuthorized() && !isRanging() {
-            startRanging()
-        }
-    }
-    
-    func removeObserver(o: Observer) {
-        observers.removeObject(o)
-        
-        if observers.count == 0  && isRanging()  {
-            stopRanging()
-        }
-    }
-    
-    func notifyObservers() {
-        for observer in observers {
-            observer.update()
         }
     }
 
