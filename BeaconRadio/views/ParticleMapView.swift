@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 Thomas Bopst. All rights reserved.
 //
 
+import UIKit
 
-class ParticleMapView: UIView {
+@objc class ParticleMapView: UIView {
     
     // MARK: Initializer
     override init() {

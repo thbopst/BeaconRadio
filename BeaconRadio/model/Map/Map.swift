@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Size {
     let x: Double // m
@@ -23,7 +24,7 @@ class Map {
             return Size(x: Double(self.mapImg.size.width)/Double(self.scale), y: Double(self.mapImg.size.height)/Double(self.scale))
         }
     }
-    let landmarks: [String: Landmark] = [:]
+    var landmarks: [String: Landmark] = [:]
     private let pixelData: CFData
     
     init (map: UIImage, scale: UInt, orientation: Double, landmarks: [Landmark]) {

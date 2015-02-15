@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegate, ParticleMapViewDataSource {
     

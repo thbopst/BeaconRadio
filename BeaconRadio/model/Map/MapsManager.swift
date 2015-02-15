@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 class MapsManager {
     
@@ -19,6 +20,8 @@ class MapsManager {
         if let directories = dirs {
             let dir = directories[0];
             self.dirPath = dir.stringByAppendingPathComponent("maps")
+        } else {
+            self.dirPath = nil
         }
     }
     
@@ -31,7 +34,7 @@ class MapsManager {
             if let content = NSFileManager.defaultManager().contentsOfDirectoryAtPath(path, error: nil) {
                 for c in content {
                     if c is NSString {
-                        maps.append(c as String)
+                        maps.append(c as! String)
                         println("Content in dir: \(c)")
                     }
                 }
@@ -57,9 +60,9 @@ class MapsManager {
                 
                 if let plist = NSDictionary(contentsOfFile: plistPath) {
                     
-                    let scale = plist.valueForKey("scale") as UInt
-                    let orientation = plist.valueForKey("orientation") as Double
-                    let lms = plist.valueForKey("landmarks") as [NSDictionary]
+                    let scale = plist.valueForKey("scale") as! UInt
+                    let orientation = plist.valueForKey("orientation") as! Double
+                    let lms = plist.valueForKey("landmarks") as! [NSDictionary]
                     
                     if scale < 1 || scale > 100 {
                         error = true
@@ -73,11 +76,11 @@ class MapsManager {
                     var landmarks: [Landmark] = []
                     
                     for lm in lms {
-                        let proximityUUID = NSUUID(UUIDString: lm.valueForKey("proximityUUID") as String)
-                        let major = lm.valueForKey("major") as UInt
-                        let minor = lm.valueForKey("minor") as UInt
-                        let x = lm.valueForKey("x") as Double
-                        let y = lm.valueForKey("y") as Double
+                        let proximityUUID = NSUUID(UUIDString: lm.valueForKey("proximityUUID") as! String)
+                        let major = lm.valueForKey("major") as! UInt
+                        let minor = lm.valueForKey("minor") as! UInt
+                        let x = lm.valueForKey("x") as! Double
+                        let y = lm.valueForKey("y") as! Double
                         
                         if x < 0 || y < 0 {
                             error = true

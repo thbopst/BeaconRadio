@@ -10,7 +10,7 @@ import Foundation
 
 class DataLogger {
     
-    let attributes: [String]
+    var attributes: [String]
     private var startTime: NSDate?
     private let timestampKey = "timestamp"
     

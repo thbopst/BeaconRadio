@@ -83,7 +83,7 @@ class DataPlayer {
     @objc func timerFired(timer: NSTimer) {
         
         if let del = self.delegate {
-            del.dataPlayer(self, handleData: timer.userInfo as [[String:String]])
+            del.dataPlayer(self, handleData: timer.userInfo as! [[String:String]])
         }
     }
     
