@@ -35,7 +35,9 @@ import UIKit
                 let path = dataSource.estimatedPathForParticleMapView(self)
                 let motionPath = dataSource.estimatedMotionPathForParticleMapView(self)
                 let landmarks = dataSource.landmarkForParticleMapView(self)
-                let image = drawParticleMapImgWith(Map: mapImg, particles: particles, path: path, motionPath: motionPath, landmarks: landmarks)
+                let sigellipse = dataSource.pointsOfSigellipseForParticleMapView(self)
+                
+                let image = drawParticleMapImgWith(Map: mapImg, particles: particles, path: path, motionPath: motionPath, landmarks: landmarks, sigellipse: sigellipse)
                 
                 
                 let xScale = self.bounds.size.width / image.size.width
@@ -80,10 +82,10 @@ import UIKit
         }
     }
     
-    var lineWidth: Double = 1.0 {
+    var lineWidth: Double = 2.0 {
         didSet {
             if self.lineWidth < 1.0 {
-                self.lineWidth = 1.0
+                self.lineWidth = 2.0
             }
         }
     }
@@ -96,7 +98,7 @@ import UIKit
         }
     }
     
-    private func drawParticleMapImgWith(Map mapImg: UIImage, particles: [Particle], path: [Pose], motionPath: [Pose], landmarks: [Landmark]) -> UIImage {
+    private func drawParticleMapImgWith(Map mapImg: UIImage, particles: [Particle], path: [Pose], motionPath: [Pose], landmarks: [Landmark], sigellipse: [Sigellipse.Point]) -> UIImage {
         
         var particleMapImg = mapImg
         
@@ -124,6 +126,9 @@ import UIKit
         
         // draw estimated path
         self.drawPath(path, withColor: UIColor.blueColor())
+        
+        // daw sigellipse
+        self.drawSigellipse(sigellipse, withColor: UIColor.blackColor())
         
         particleMapImg = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -247,6 +252,30 @@ import UIKit
 
     }
     
+    private func drawSigellipse(point: [Sigellipse.Point], withColor color: UIColor) {
+        if !point.isEmpty {
+            let context = UIGraphicsGetCurrentContext()
+            CGContextSetStrokeColorWithColor(context, color.CGColor)
+            CGContextSetLineWidth(context, CGFloat(self.lineWidth))
+            
+            CGContextBeginPath(context)
+            
+            let first = point.first!
+            let last = point.last!
+            
+            CGContextMoveToPoint(context, CGFloat(first.x), CGFloat(first.y))
+            
+            
+            for p in point {
+                CGContextAddLineToPoint(context, CGFloat(p.x), CGFloat(p.y))
+            }
+            CGContextClosePath(context)
+            CGContextDrawPath(context, kCGPathStroke)
+//            drawPoint(CGPoint(x: first.x, y: first.y), withColor: color)
+//            drawPoint(CGPoint(x: last.x, y: last.y), withColor: color)
+        }
+    }
+    
 }
 
 protocol ParticleMapViewDataSource {
@@ -254,6 +283,7 @@ protocol ParticleMapViewDataSource {
     func particlesForParticleMapView(view: ParticleMapView) -> [Particle]
     func estimatedPathForParticleMapView(view: ParticleMapView) -> [Pose]
     func landmarkForParticleMapView(view: ParticleMapView) -> [Landmark]
-    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double)
+//    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double)
     func estimatedMotionPathForParticleMapView(view: ParticleMapView) -> [Pose]
+    func pointsOfSigellipseForParticleMapView(view: ParticleMapView) -> [Sigellipse.Point]
 }

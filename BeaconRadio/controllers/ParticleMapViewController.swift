@@ -137,13 +137,29 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
         return []
     }
     
-    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double) {
-        if let map = self.map {
-            if let particleFilter = self.particleFilter {
-                return transformPose(particleFilter.particleSetMean, ToMapCS: map)
+//    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double) {
+//        if let map = self.map {
+//            if let particleFilter = self.particleFilter {
+//                let p = transformPoint(particleFilter.particleSetMeanAndCov.mu, ToMapCS: map)
+//                return (x: p.x, y: p.y)
+//            }
+//        }
+//        return (x: -1, y: -1)
+//    }
+    
+    func pointsOfSigellipseForParticleMapView(view: ParticleMapView) -> [Sigellipse.Point] {
+        
+        var sigellipseTransformed = Array<Sigellipse.Point>()
+        
+        if let map = self.map, particleFilter = self.particleFilter, muSigma = particleFilter.particleSetMeanAndCov {
+            
+            let ellipse = Sigellipse(mu: muSigma.mu, sigma: muSigma.sigma).points
+            
+            for p in ellipse {
+                sigellipseTransformed.append(transformPoint(p, ToMapCS: map))
             }
         }
-        return (x: -1, y: -1)
+        return sigellipseTransformed
     }
     
     // from Meters to pixels
@@ -165,6 +181,14 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
     
     private func transformPose(p: (x:Double, y: Double), ToMapCS map: Map) -> (x: Double, y: Double) {
         return (x: p.x * Double(map.scale), y: p.y * Double(map.scale))
+    }
+    
+    private func transformPoint(p: Sigellipse.Point, ToMapCS map: Map) -> Sigellipse.Point {
+        
+        let xNew = p.x * Double(map.scale)
+        let yNew = p.y * Double(map.scale)
+        
+        return Sigellipse.Point(x: xNew, y: yNew)
     }
     
     

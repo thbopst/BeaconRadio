@@ -10,6 +10,8 @@
 		E013884A1A1B455600CB1999 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
 		E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
 		E0181F7F1A10CAB8003D9E2D /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */; };
+		E01BC31B1A91D25D00838DBA /* Sigellipse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01BC31A1A91D25D00838DBA /* Sigellipse.swift */; };
+		E01BC31C1A91D25D00838DBA /* Sigellipse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01BC31A1A91D25D00838DBA /* Sigellipse.swift */; };
 		E037FAED1A8B973900B0EEC6 /* DataPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D091A1F32AF008DBAA1 /* DataPlayer.swift */; };
 		E037FAEE1A8B973900B0EEC6 /* ParticleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04F6B671A08E5A100C7F78E /* ParticleFilter.swift */; };
 		E037FAEF1A8B973900B0EEC6 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461071A03FAAA0026E002 /* Particle.swift */; };
@@ -109,6 +111,7 @@
 		E01388491A1B455600CB1999 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionModel.swift; sourceTree = "<group>"; };
 		E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementModel.swift; sourceTree = "<group>"; };
+		E01BC31A1A91D25D00838DBA /* Sigellipse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sigellipse.swift; sourceTree = "<group>"; };
 		E037FB191A8B973900B0EEC6 /* BeaconRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E037FB1A1A8B973A00B0EEC6 /* BeaconRadioSimulator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BeaconRadioSimulator-Info.plist"; path = "/Users/thbopst/Documents/Studium/MSI_HTWG-Konstanz/Masterthesis/app/BeaconRadio/BeaconRadioSimulator-Info.plist"; sourceTree = "<absolute>"; };
 		E037FB2D1A8BB65400B0EEC6 /* BeaconRadar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconRadar.swift; sourceTree = "<group>"; };
@@ -309,6 +312,7 @@
 				E0E09D111A236E10008DBAA1 /* Util.swift */,
 				E0754E341A443E75005EA7F2 /* Settings.swift */,
 				E03DC8E21A84B7D30082FAE1 /* Heading.swift */,
+				E01BC31A1A91D25D00838DBA /* Sigellipse.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -487,6 +491,7 @@
 				E037FAF81A8B973900B0EEC6 /* Observable.swift in Sources */,
 				E037FB491A8BC17800B0EEC6 /* Beacon.swift in Sources */,
 				E037FB531A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */,
+				E01BC31C1A91D25D00838DBA /* Sigellipse.swift in Sources */,
 				E037FAFF1A8B973900B0EEC6 /* Random.swift in Sources */,
 				E037FB001A8B973900B0EEC6 /* Heading.swift in Sources */,
 				E037FB421A8BC12E00B0EEC6 /* Landmark.swift in Sources */,
@@ -521,6 +526,7 @@
 				E037FB481A8BC17800B0EEC6 /* Beacon.swift in Sources */,
 				E037FB521A8BC1C800B0EEC6 /* IMotionTracker.swift in Sources */,
 				E0E8A9651A123141003FC9EE /* Random.swift in Sources */,
+				E01BC31B1A91D25D00838DBA /* Sigellipse.swift in Sources */,
 				E03DC8E31A84B7D30082FAE1 /* Heading.swift in Sources */,
 				E037FB411A8BC12E00B0EEC6 /* Landmark.swift in Sources */,
 				E040633819E549ED00C0A3D0 /* AppDelegate.swift in Sources */,

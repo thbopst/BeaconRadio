@@ -38,7 +38,60 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     
     private var weightedParticleSetMean: (x: Double, y: Double) = (0.0, 0.0)
     
-    var particleSetMean: (x: Double, y: Double) {
+    var particleSetMeanAndCov: (mu: Sigellipse.Point, sigma: Sigellipse.Sigma)? {
+        get {
+            
+            let particles = self.particleSet
+            
+            if !particles.isEmpty {
+                // calc particle set mean
+                
+                let n = Double(particles.count)
+                
+                var mu_x = 0.0
+                var mu_y = 0.0
+                
+                for p in particles {
+                    mu_x += p.x
+                    mu_y += p.y
+                }
+                
+                mu_x = mu_x / n
+                mu_y = mu_y / n
+                
+                
+                let mu = Sigellipse.Point(x: mu_x, y: mu_y)
+                
+                // calc sigma
+                var sigma_xx = 0.0
+                var sigma_xy = 0.0
+                var sigma_yx = 0.0
+                var sigma_yy = 0.0
+                
+                for p in particles {
+                    sigma_xx += (p.x - mu_x) * (p.x - mu_x)
+                    sigma_xy += (p.x - mu_x) * (p.y - mu_y)
+                    sigma_yx += (p.y - mu_y) * (p.x - mu_x)
+                    sigma_yy += (p.y - mu_y) * (p.y - mu_y)
+                }
+                
+                
+                // standard deviation (sigma)
+                sigma_xx = sigma_xx / (n - 1)
+                sigma_xy = sigma_xy / (n - 1)
+                sigma_yx = sigma_yx / (n - 1)
+                sigma_yy = sigma_yy / (n - 1)
+                
+                
+                let covMatrix = Sigellipse.Sigma(m: [sigma_xx, sigma_xy, sigma_yx, sigma_yy])
+                
+                return (mu: mu, sigma: covMatrix)
+            }
+            return nil
+        }
+    }
+    
+    var wParticleSetMean: (x: Double, y: Double) {
         get {
             return self.weightedParticleSetMean
         }
