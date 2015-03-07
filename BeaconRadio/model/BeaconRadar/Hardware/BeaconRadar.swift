@@ -83,7 +83,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         
         for beacon in beacons {
             if beacon is CLBeacon {
-                let clB = beacon as CLBeacon
+                let clB = beacon as! CLBeacon
                 
                 let b = Beacon(
                     proximityUUID: clB.proximityUUID,
@@ -94,7 +94,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
                     rssi: clB.rssi
                 )
                 
-                self.rangedBeacons.append(b
+                rangedBeacons.append(b)
                 
                 log.append(["uuid":b.proximityUUID.UUIDString, "major":"\(b.major)", "minor":"\(b.minor)", "accuracy":"\(b.accuracy)", "rssi":"\(b.rssi)", "proximity":"\(b.proximity.rawValue)"])
             }
@@ -102,7 +102,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
         
         self.dataLogger.log(log)
         
-        if self.rangedBeacons.count > 0 {
+        if rangedBeacons.count > 0 {
 
             if let delegate = self.delegate {
                 delegate.beaconRadar(self, didRangeBeacons: rangedBeacons)
@@ -117,9 +117,7 @@ class BeaconRadar: NSObject, CLLocationManagerDelegate, IBeaconRadar {
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
-        println("#Request Authorization state")
-        
-        if isAuthorized() && self.observers.count > 0  && !isRanging() {
+        if isAuthorized() && !isRanging() {
             startRanging()
         } else if !isAuthorized() && isRanging() {
             stopRanging()

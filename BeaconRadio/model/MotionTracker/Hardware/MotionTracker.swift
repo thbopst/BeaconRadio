@@ -62,9 +62,11 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
             println("[ERROR] CMMotionActivityManager: MotionActivity NOT available.")
         }
         
-        if UInt32(CMMotionManager.availableAttitudeReferenceFrames()) & CMAttitudeReferenceFrameXMagneticNorthZVertical.value == 0 {
-            println("[ERROR] CMMotionAttitudeReferenceFrameXMagneticNorthZVertical NOT available.")
-        }
+        
+        
+//        if UInt32(CMMotionManager.availableAttitudeReferenceFrames().rawValue) & UInt32(CMAttitudeReferenceFrame.XMagneticNorthZVertical.rawValue) == 0 {
+//            println("[ERROR] CMMotionAttitudeReferenceFrameXMagneticNorthZVertical NOT available.")
+//        }
         
         // CMDeviceMotion
         self.deviceMotion.showsDeviceMovementDisplay = true
@@ -97,7 +99,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         self.activityLogger.start()
         
         if  !self.isTracking && CLLocationManager.locationServicesEnabled() &&
-            (authStatus == CLAuthorizationStatus.Authorized || authStatus == CLAuthorizationStatus.AuthorizedWhenInUse) {
+            (authStatus == CLAuthorizationStatus.AuthorizedAlways || authStatus == CLAuthorizationStatus.AuthorizedWhenInUse) {
                 
                 if CLLocationManager.headingAvailable() {
                     self.locationManager.startUpdatingHeading()
@@ -146,8 +148,8 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                         let res = self.activityLogger.log([["startDate":"\(relativeTs)", "confidence":"\(activity.confidence.rawValue)", "unknown":"\(activity.unknown)", "stationary":"\(activity.stationary)", "walking":"\(activity.walking)", "running":"\(activity.running)", "automotive":"\(activity.automotive)", "cycling":"\(activity.cycling)"]])
                     })
                 }
-                if UInt32(CMMotionManager.availableAttitudeReferenceFrames()) & CMAttitudeReferenceFrameXMagneticNorthZVertical.value > 0 {
-                    self.deviceMotion.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrameXMagneticNorthZVertical, toQueue: operationQueue, withHandler: {motion, error in
+                if UInt32(CMMotionManager.availableAttitudeReferenceFrames().rawValue) & UInt32(CMAttitudeReferenceFrame.XMagneticNorthZVertical.rawValue) > 0 {
+                    self.deviceMotion.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrame.XMagneticNorthZVertical, toQueue: operationQueue, withHandler: {motion, error in
                         if error != nil {
                             println("[ERROR] CMDeviceMotion: \(error.description)")
                         } else if motion != nil {
@@ -184,13 +186,15 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                         }
                         
                     })
+                } else {
+                    println("[ERROR] CMMotionAttitudeReferenceFrameXMagneticNorthZVertical NOT available.")
                 }
                 self.isTracking = true
         }
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if (!(status == CLAuthorizationStatus.Authorized || status == CLAuthorizationStatus.AuthorizedWhenInUse) && isTracking) {
+        if (!(status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse) && isTracking) {
             self.stopMotionTracking()
             println("[ERROR] CLLocationManager: Authorization status \(CLLocationManager.authorizationStatus())")
         }
