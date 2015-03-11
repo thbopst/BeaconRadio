@@ -200,9 +200,10 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         }
     }
     
+    // HEADING
     func locationManager(manager: CLLocationManager!, didUpdateHeading newHeading: CLHeading!) {
-        
-        self.delegate?.motionTracker(self, didMeasureDeviceMotionHeading: Heading(headingInDegree: newHeading.magneticHeading), withTimestamp: newHeading.timestamp)
+
+        self.delegate?.motionTracker(self, didMeasureCompassHeading: Heading(headingInDegree: newHeading.magneticHeading), withTimestamp: newHeading.timestamp)
         
         self.operationQueue.addOperationWithBlock({
             
