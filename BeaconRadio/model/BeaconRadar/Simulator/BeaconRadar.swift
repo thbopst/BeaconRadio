@@ -27,10 +27,15 @@ class BeaconRadar: IBeaconRadar, DataPlayerDelegate {
     }
     
     func startRanging() {
-        isRanging = true
+        let prefix = ConfigReader.sharedInstance.simulationDataPrefix
+        if let path = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Beacon") {
+            isRanging = true
+            self.dataPlayer.load(dataStoragePath: path , error: nil)
+            self.dataPlayer.playback(self)
+        } else {
+            assertionFailure("Couldn't load Beacon data for Simulation.")
+        }
         
-        self.dataPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(Settings.sharedInstance.simulationDataPrefix)_Beacon.csv")! , error: nil)
-        self.dataPlayer.playback(self)
     }
 
     func stopRanging() {

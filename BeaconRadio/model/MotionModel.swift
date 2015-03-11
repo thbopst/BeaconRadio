@@ -62,9 +62,9 @@ class MotionModel: MotionTrackerDelegate {
     
     init(map: Map) {
         self.map = map
-//        self.startPose = Pose(x: 1.93, y: 1.24, theta: 0.0) // x = 0.38 + 0.55 + 1.0 = 1.93, y = 0.04 + 1.2 = 1.24 (Türe VR)
-//        self.startPose = Pose(x: 7.93, y: 1.24, theta: 0.0) // x = 0.38 + 0.55 + 7.0 = 1.93, y = 0.04 + 1.2 = 1.24 (Fenster VL)
-        self.startPose = Pose(x: 8.33, y: 5.4, theta: 0.0) // F-Foyer
+        
+        let p = ConfigReader.sharedInstance.startPoseMotionTracker
+        self.startPose = Pose(x: p.x, y: p.y, theta: 0.0)
     }
     
     func startMotionTracking() {
