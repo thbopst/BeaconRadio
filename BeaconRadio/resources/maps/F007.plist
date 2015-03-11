@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>landmarks</key>
+	<array>
+		<dict>
+			<key>proximityUUID</key>
+			<string>F0018B9B-7509-4C31-A905-1A27D39C003C</string>
+			<key>major</key>
+			<integer>21500</integer>
+			<key>minor</key>
+			<integer>48945</integer>
+			<key>x</key>
+			<real>8.08</real>
+			<key>y</key>
+			<real>2.06</real>
+		</dict>
+		<dict>
+			<key>proximityUUID</key>
+			<string>F0018B9B-7509-4C31-A905-1A27D39C003C</string>
+			<key>major</key>
+			<integer>38722</integer>
+			<key>minor</key>
+			<integer>6270</integer>
+			<key>x</key>
+			<real>9.94</real>
+			<key>y</key>
+			<real>11.3</real>
+		</dict>
+		<dict>
+			<key>proximityUUID</key>
+			<string>F0018B9B-7509-4C31-A905-1A27D39C003C</string>
+			<key>major</key>
+			<integer>39821</integer>
+			<key>minor</key>
+			<integer>56686</integer>
+			<key>x</key>
+			<real>0.95</real>
+			<key>y</key>
+			<real>2.26</real>
+		</dict>
+		<dict>
+			<key>proximityUUID</key>
+			<string>F0018B9B-7509-4C31-A905-1A27D39C003C</string>
+			<key>major</key>
+			<integer>41738</integer>
+			<key>minor</key>
+			<integer>1201</integer>
+			<key>x</key>
+			<real>0.95</real>
+			<key>y</key>
+			<real>7.35</real>
+		</dict>
+	</array>
+	<key>scale</key>
+	<integer>100</integer>
+	<key>orientation</key>
+	<integer>30</integer>
+</dict>
+</plist>

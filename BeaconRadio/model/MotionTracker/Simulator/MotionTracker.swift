@@ -16,7 +16,6 @@ class MotionTracker: IMotionTracker, DataPlayerDelegate {
     private let headingPlayer = DataPlayer()
     private let deviceMotionPlayer = DataPlayer()
     private let pedometerPlayer = DataPlayer()
-    private let activityPlayer = DataPlayer()
     // further players currently not beeing used
     
     required init() {
@@ -26,17 +25,21 @@ class MotionTracker: IMotionTracker, DataPlayerDelegate {
     func startMotionTracking(delegate: MotionTrackerDelegate) {
         self.delegate = delegate
         
-        let settings = Settings.sharedInstance
+        let prefix = ConfigReader.sharedInstance.simulationDataPrefix
         
-        self.headingPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Heading.csv")!, error: nil)
-        self.deviceMotionPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_DeviceMotion.csv")!, error: nil)
-        self.pedometerPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Pedometer.csv")!, error: nil)
-//        self.activityPlayer.load(dataStoragePath: Util.pathToLogfileWithName("\(settings.simulationDataPrefix)_Activity.csv")!, error: nil)
+        if let headingPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Heading"),
+            let deviceMotionPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "DeviceMotion"),
+            let pedometerPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Pedometer") {
         
-        self.headingPlayer.playback(self)
-        self.deviceMotionPlayer.playback(self)
-        self.pedometerPlayer.playback(self)
-//        self.activityPlayer.playback(self)
+                self.headingPlayer.load(dataStoragePath: headingPath, error: nil)
+                self.deviceMotionPlayer.load(dataStoragePath: deviceMotionPath, error: nil)
+                self.pedometerPlayer.load(dataStoragePath: pedometerPath, error: nil)
+                
+                self.headingPlayer.playback(self)
+                self.deviceMotionPlayer.playback(self)
+                self.pedometerPlayer.playback(self)
+        }
+        
     }
     
     func stopMotionTracking() {
@@ -54,9 +57,6 @@ class MotionTracker: IMotionTracker, DataPlayerDelegate {
         } else if player === self.pedometerPlayer {
             handlePedometerData(data)
         }
-//        else if player === self.activityPlayer {
-//            handleActivityData(data)
-//        }
     }
     
     private func handleHeadingData(data: [[String:String]]) {
@@ -114,15 +114,4 @@ class MotionTracker: IMotionTracker, DataPlayerDelegate {
         }
     }
     
-//    private func handleActivityData(data: [[String:String]]) {
-//        for d in data {
-//            let startTimeInterval: Double = NSString(string: d["startDate"]!).doubleValue
-//            let startDate: NSDate = self.pedometerPlayer.convertRelativeDateToAbsolute(startTimeInterval) // relative timestamp to playerstart
-//            
-//            let stationary: Bool = NSString(string: d["stationary"]!).boolValue
-//            let confidence: Int = NSString(string: d["confidence"]!).integerValue
-//            
-//            self.delegate?.motionTracker(self, didReceiveMotionActivityData: stationary, withConfidence: CMMotionActivityConfidence(rawValue: confidence)!, andStartDate: startDate)
-//        }
-//    }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 class Util {
     
-    class func pathToLogfiles() -> String? {
+    private class func pathToLogfiles() -> String? {
         let dirs : [String]? = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true) as? [String]
         return dirs?.first
     }

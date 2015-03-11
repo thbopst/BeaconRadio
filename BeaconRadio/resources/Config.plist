@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>startPoseMotionTracker</key>
+	<dict>
+		<key>x</key>
+		<real>8.33</real>
+		<key>y</key>
+		<real>5.4</real>
+	</dict>
+	<key>simulationDataPrefix</key>
+	<string>F-Foyer_F007-F023-F022-F007</string>
+	<key>map</key>
+	<string>F-Foyer</string>
+</dict>
+</plist>
