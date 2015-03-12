@@ -1,0 +1,13 @@
+timestamp,startDate,confidence,unknown,stationary,walking,running,automotive,cycling
+0.0777730345726013,-8.4267765879631,0,false,false,false,false,false,false
+36.1025420427322,36.0581125617027,1,false,true,false,false,false,false
+36.4192939996719,36.3758125901222,1,false,false,false,false,false,false
+37.4196870326996,37.3288025856018,0,false,false,false,false,false,false
+37.6895779967308,37.6464605927467,1,false,true,false,false,false,false
+38.6421500444412,38.5994935631752,1,false,false,false,false,false,false
+39.9675760269165,39.8702241778374,0,false,false,false,false,false,false
+41.1836510300636,41.1410061717033,1,false,true,false,false,false,false
+42.1403220295906,42.0941922068596,1,false,false,false,false,false,false
+42.5008560419083,42.4119101762772,0,false,false,false,false,false,false
+42.7780230045319,42.7296301722527,1,false,true,false,false,false,false
+43.4078969955444,43.3650051951408,1,false,false,false,false,false,false
