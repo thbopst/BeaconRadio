@@ -61,10 +61,7 @@ class MeasurementModel: BeaconRadarDelegate {
         
         for beacon in beacons {
             if (beacon.accuracy >= 0 && beacon.accuracy < 5.0) { // 5, 6, (> 7 nicht so gut)
-                
-                let id = "\(beacon.proximityUUID.UUIDString):\(beacon.major):\(beacon.minor)"
-
-                z.z[id] = beacon.accuracy
+                z.z[beacon.identifier] = beacon.accuracy
             }
         }
         

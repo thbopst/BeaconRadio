@@ -105,6 +105,7 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                     self.locationManager.startUpdatingHeading()
                 }
                 
+                // PEDOMETER
                 if CMPedometer.isDistanceAvailable() {
                     self.pedometer.startPedometerUpdatesFromDate(NSDate(), withHandler: { data, error in
                         if error != nil {
@@ -125,19 +126,21 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                     })
                 }
                 
+                // STEPCOUNTER
                 if CMStepCounter.isStepCountingAvailable() {
                     self.stepcounter.startStepCountingUpdatesToQueue(operationQueue, updateOn: 1, withHandler: {numberOfSteps, timestamp, error in
                         if error != nil {
                             println("[ERROR] CMStepCounter: \(error.description)")
                         } else {
-                            // TODO
-                            let relativeTs = self.stepCounterLogger.convertAbsoluteDateToRelativeDate(timestamp)
-                            
-                            self.stepCounterLogger.log([["ts":"\(relativeTs)", "steps":"\(numberOfSteps)"]])
+                            self.operationQueue.addOperationWithBlock({
+                                let relativeTs = self.stepCounterLogger.convertAbsoluteDateToRelativeDate(timestamp)
+                                self.stepCounterLogger.log([["ts":"\(relativeTs)", "steps":"\(numberOfSteps)"]])
+                            })
                         }
                     })
                 }
                 
+                // ACTIVITY
                 if CMMotionActivityManager.isActivityAvailable() {
                     self.motionactivity.startActivityUpdatesToQueue(operationQueue, withHandler: {activity in
                         
@@ -148,6 +151,8 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                         let res = self.activityLogger.log([["startDate":"\(relativeTs)", "confidence":"\(activity.confidence.rawValue)", "unknown":"\(activity.unknown)", "stationary":"\(activity.stationary)", "walking":"\(activity.walking)", "running":"\(activity.running)", "automotive":"\(activity.automotive)", "cycling":"\(activity.cycling)"]])
                     })
                 }
+                
+                // DEVICE MOTION
                 if UInt32(CMMotionManager.availableAttitudeReferenceFrames().rawValue) & UInt32(CMAttitudeReferenceFrame.XMagneticNorthZVertical.rawValue) > 0 {
                     self.deviceMotion.startDeviceMotionUpdatesUsingReferenceFrame(CMAttitudeReferenceFrame.XMagneticNorthZVertical, toQueue: operationQueue, withHandler: {motion, error in
                         if error != nil {

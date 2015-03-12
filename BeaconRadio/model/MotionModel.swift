@@ -123,7 +123,7 @@ class MotionModel: MotionTrackerDelegate {
         let lastPose = self.lastPoseEstimation
         if xDiff != 0.0 && yDiff != 0.0 {
             poseStore.append(Pose(x: lastPose.x + xDiff, y: lastPose.y + yDiff, theta: heading))
-            println("[MotionPose] x:\(poseStore.last!.x), y: \(poseStore.last!.y)")
+//            println("[MotionPose] x:\(poseStore.last!.x), y: \(poseStore.last!.y)")
         }
         
         self.motionStore.removeAll(keepCapacity: true)
