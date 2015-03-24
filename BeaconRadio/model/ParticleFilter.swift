@@ -23,6 +23,8 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     private var motionModel: MotionModel
     private let measurementModel: MeasurementModel
     
+    private var rangedBeacons = [Beacon]()
+    
     private var _isRunning = false
     var isRunning: Bool {
         get {
@@ -35,65 +37,16 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
             return self.particleSet
         }
     }
+
+    private let particleWeightSumLogger = DataLogger(attributeNames: ["normalizedWeightSum", "particleDiversity", "measurementCount"])
+    private let estimatedPathLogger = DataLogger(attributeNames: ["mu_x", "mu_y", "sigma_11", "sigma_12", "sigma_21", "sigma_22", "wMu_x", "wMu_y", "wSigma_11", "wSigma_12", "wSigma_21", "wSigma_22"])
     
-    private var weightedParticleSetMean: (x: Double, y: Double) = (0.0, 0.0)
+    private var meanAndCov: (mu: Sigellipse.Point, sigma: Sigellipse.Sigma)? = nil
+    private var weightedMeanAndCov: (mu: Sigellipse.Point, sigma: Sigellipse.Sigma)? = nil
     
     var particleSetMeanAndCov: (mu: Sigellipse.Point, sigma: Sigellipse.Sigma)? {
         get {
-            
-            let particles = self.particleSet
-            
-            if !particles.isEmpty {
-                // calc particle set mean
-                
-                let n = Double(particles.count)
-                
-                var mu_x = 0.0
-                var mu_y = 0.0
-                
-                for p in particles {
-                    mu_x += p.x
-                    mu_y += p.y
-                }
-                
-                mu_x = mu_x / n
-                mu_y = mu_y / n
-                
-                
-                let mu = Sigellipse.Point(x: mu_x, y: mu_y)
-                
-                // calc sigma
-                var sigma_xx = 0.0
-                var sigma_xy = 0.0
-                var sigma_yx = 0.0
-                var sigma_yy = 0.0
-                
-                for p in particles {
-                    sigma_xx += (p.x - mu_x) * (p.x - mu_x)
-                    sigma_xy += (p.x - mu_x) * (p.y - mu_y)
-                    sigma_yx += (p.y - mu_y) * (p.x - mu_x)
-                    sigma_yy += (p.y - mu_y) * (p.y - mu_y)
-                }
-                
-                
-                // standard deviation (sigma)
-                sigma_xx = sigma_xx / (n - 1)
-                sigma_xy = sigma_xy / (n - 1)
-                sigma_yx = sigma_yx / (n - 1)
-                sigma_yy = sigma_yy / (n - 1)
-                
-                
-                let covMatrix = Sigellipse.Sigma(m: [sigma_xx, sigma_xy, sigma_yx, sigma_yy])
-                
-                return (mu: mu, sigma: covMatrix)
-            }
-            return nil
-        }
-    }
-    
-    var wParticleSetMean: (x: Double, y: Double) {
-        get {
-            return self.weightedParticleSetMean
+            return self.weightedMeanAndCov
         }
     }
     
@@ -103,6 +56,9 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     var motionPath: [Pose] {
         return self.motionModel.estimatedPath
     }
+    
+    private var recoveryParticleWeightSum = [Double]()
+    private var recoveryParticleWeightSumIndex = 0
     
     
     init(map: Map) {
@@ -126,6 +82,9 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         // register for beacon updates and wait until first beacons are received
         // particle generation around beacons
         
+        self.particleWeightSumLogger.start()
+        self.estimatedPathLogger.start()
+        
         self._isRunning = true
     }
     
@@ -135,6 +94,17 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         
         self.motionModel.stopMotionTracking()
         self.measurementModel.stopBeaconRanging()
+        
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd_HH-mm"
+        
+        if let path = Util.pathToLogfileWithName("\(dateFormatter.stringFromDate(NSDate()))_ParticleWeight.csv") {
+            self.particleWeightSumLogger.save(dataStoragePath: path, error: nil)
+        }
+        if let path = Util.pathToLogfileWithName("\(dateFormatter.stringFromDate(NSDate()))_EstimatedPath.csv") {
+            self.estimatedPathLogger.save(dataStoragePath: path, error: nil)
+        }
     }
     
     
@@ -216,7 +186,7 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         
         // if device is Stationary => integrate sensor values, if not return them to measurement model
         if self.motionModel.isDeviceStationary.stationary {
-            
+            println("stationary")
             
             // integrate measurement if no distance was measured until now
             // or if last distance measurement is more than 2.7 seconds ago
@@ -250,6 +220,20 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     
     private func filter(particles_tMinus1: [Particle], andMeasurements z: Measurement) -> [Particle] {
 
+        var particles_tMinus1 = particles_tMinus1
+        let beacons = self.rangedBeacons.sorted({$0.accuracy < $1.accuracy})
+        
+        // RECOVERY? (Kidnapped?)
+        let rCount = self.recoveryParticleWeightSum.count
+        
+        if rCount == 3 && self.recoveryParticleWeightSum.reduce(0.0, combine: +)/Double(rCount) < 1.0 { // 0.00001
+            
+            let generatedParticles = generateParticlesAroundBeacons(beacons, count: Int(Double(self.particleSetSize) * 0.2))
+            particles_tMinus1 += generatedParticles
+            
+            println("RECOVERY")
+        }
+        
         // Sample motion + weight particles
         var weightedParticleSet: [(weight: Double,particle: Particle)] = []
         weightedParticleSet.reserveCapacity(self.particleSetSize)
@@ -260,7 +244,7 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
             if w > 0 {
                 // commute weights
                 if weightedParticleSet.count > 1 {
-                    w += weightedParticleSet.last!.0 // add weigt of predecessor
+                    w += weightedParticleSet.last!.0 // add weight of predecessor
                 }
                 weightedParticleSet += [(weight: w, particle: particle)]
             }
@@ -271,9 +255,12 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         var particleHistogram = [Int](count: weightedParticleSet.count, repeatedValue: 0)
         var differentParticleCount = 0
 
-        // Particle set mean
+        // weightedMean
         var weightedParticleSetMean: (x: Double, y: Double) = (0.0, 0.0)
         var weightSum = 0.0
+        
+        // mean
+        var particleSetMean: (x: Double, y: Double) = (0.0, 0.0)
         
         // roulette
         var particles_t: [Particle] = []
@@ -282,80 +269,142 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         
         var logCount_addedRandomParticleCount = 0
         
-        while particles_t.count < self.particleSetSize {
+        while weightedParticleSet.count > 0 && particles_t.count < self.particleSetSize {
 
             let particleDiversity: Double = Double(differentParticleCount) / Double(particleHistogram.count)
             
-            // spezifies until which count particles can be drawn without checking the diversity
-            let insertLevel =  (self.particleSetSize - Int(Double(self.particleSetSize) * self.desiredParticleDiversity))
-            
-            
-            if weightedParticleSet.count > 0 && (particleDiversity >= self.desiredParticleDiversity || particles_t.count < insertLevel) {
-            
-                // draw particle with probability
-                if let last = weightedParticleSet.last {
-                    let random = Random.rand_uniform() * last.weight
-                    
-                    // binary search
-                    var m: Int = 0;
-                    var left: Int = 0;
-                    var right: Int = weightedParticleSet.count-1;
-                    while left <= right {
-                        m = (left + right)/2
-                        if random < weightedParticleSet[m].weight {
-                            right = m - 1
-                        } else if random > weightedParticleSet[m].weight {
-                            left = m + 1
-                        } else {
-                            break
-                        }
+            // draw particle with probability
+            if let last = weightedParticleSet.last {
+                let random = Random.rand_uniform() * last.weight
+                
+                // binary search
+                var m: Int = 0;
+                var left: Int = 0;
+                var right: Int = weightedParticleSet.count-1;
+                while left <= right {
+                    m = (left + right)/2
+                    if random < weightedParticleSet[m].weight {
+                        right = m - 1
+                    } else if random > weightedParticleSet[m].weight {
+                        left = m + 1
+                    } else {
+                        break
                     }
-                    
-                    // drawn particle
-                    let particle = weightedParticleSet[m].particle
-                    let weight = weightedParticleSet[m].weight
-                    
-                    // add particle to new set
-                    particles_t.append(particle)
-                    
-                    particleHistogram[m] += 1
-                    if particleHistogram[m] == 1 {
-                        ++differentParticleCount
-                    }
-                    
-                    // calc weighted particleSetMean
-                    weightedParticleSetMean.x += particle.x * weight
-                    weightedParticleSetMean.y += particle.y * weight
-                    weightSum += weight
-
                 }
                 
-            } else {
-                // insert random particle
-                particles_t.append(generateRandomParticle())
+                // drawn particle
+                let particle = weightedParticleSet[m].particle
+                let weight = weightedParticleSet[m].weight
                 
-                particleHistogram.append(1)
-                ++differentParticleCount
-                ++logCount_addedRandomParticleCount
+                // add particle to new set
+                particles_t.append(particle)
+                
+                // histogram
+                particleHistogram[m] += 1
+                if particleHistogram[m] == 1 {
+                    ++differentParticleCount
+                }
+                
+                // calc weightedMean
+                weightedParticleSetMean.x += particle.x * weight
+                weightedParticleSetMean.y += particle.y * weight
+                weightSum += weight
+                
+                // calc mean
+                particleSetMean.x += particle.x
+                particleSetMean.y += particle.y
             }
         }
         
+        // mean calculation && regeneration
         if weightSum > 0 {
-            self.weightedParticleSetMean = (x: weightedParticleSetMean.x/weightSum, y: weightedParticleSetMean.y/weightSum)
-            self.estimatedPath.append(Pose(x: self.weightedParticleSetMean.x, y: self.weightedParticleSetMean.y, theta: 0.0))
+            
+            // weighted
+            let wMean = Sigellipse.Point(x: weightedParticleSetMean.x/weightSum, y: weightedParticleSetMean.y/weightSum)
+            let wSigma = self.sigmaForParticleSet(particles_t, withMean: wMean)!
+            self.weightedMeanAndCov = (mu: wMean, sigma: wSigma)
+            
+            // not weighted
+            let pCount = Double(particles_t.count)
+            let mean = Sigellipse.Point(x: particleSetMean.x/pCount, y: particleSetMean.y/pCount)
+            let sigma = self.sigmaForParticleSet(particles_t, withMean: mean)!
+            self.meanAndCov = (mu: mean, sigma: sigma)
+            
+            
+            // estimated path
+            self.estimatedPath.append(Pose(x: wMean.x, y: wMean.y, theta: 0.0))
+            
+            // logging
+            self.estimatedPathLogger.log([["mu_x":"\(mean.x)", "mu_y":"\(mean.y)", "sigma_11":"\(sigma.m[0])", "sigma_12":"\(sigma.m[1])", "sigma_21":"\(sigma.m[2])", "sigma_22":"\(sigma.m[3])", "wMu_x":"\(wMean.x)", "wMu_y":"\(wMean.y)", "wSigma_11":"\(wSigma.m[0])", "wSigma_12":"\(wSigma.m[1])", "wSigma_21":"\(wSigma.m[2])", "wSigma_22":"\(wSigma.m[3])"]])
+            
+            // store for recovery
+            if !z.z.isEmpty {
+                
+                // set normalized weight sum (Normalization with particle count and measurment count)
+                let normalizedWeightSum = weightSum/Double(particles_t.count)
+                
+                if self.recoveryParticleWeightSum.count < 3 {
+                    self.recoveryParticleWeightSum.append(normalizedWeightSum)
+                } else {
+                    self.recoveryParticleWeightSum[self.recoveryParticleWeightSumIndex] = normalizedWeightSum
+                }
+                
+                self.recoveryParticleWeightSumIndex = (self.recoveryParticleWeightSumIndex+1) % 3
+                
+                self.particleWeightSumLogger.log([["normalizedWeightSum" : "\(normalizedWeightSum)", "particleDiversity":"\(Double(differentParticleCount) / Double(particleHistogram.count))", "measurementCount":"\(z.z.count)"]])
+                println("normalizedWeightSum: \(normalizedWeightSum), particleDiversity: \(Double(differentParticleCount) / Double(particleHistogram.count)), measurementCount: \(z.z.count)")
+            }
+            
+        } else {
+            self.weightedMeanAndCov = nil
+            self.meanAndCov = nil
+            
+            // empty particle set --> complete new generation
+            particles_t = generateParticlesAroundBeacons(beacons, count: self.particleSetSize)
+            
+            self.recoveryParticleWeightSum.removeAll(keepCapacity: true)
+            self.recoveryParticleWeightSumIndex = 0
+            
+            println("COMPLETE RECOVERY")
         }
-        
-        let logStmt = "ParticleDiversity: \(Double(differentParticleCount) / Double(particleHistogram.count)) (\(logCount_addedRandomParticleCount) random particles), ParticleWeightSum: \(weightSum)"
-        
-        println(logStmt)
-        
+
         return particles_t
     }
     
     
-    // MARK: Particle generation
+    // MARK: Sigma Calculation
+    private func sigmaForParticleSet(pSet: [Particle], withMean mu: Sigellipse.Point) -> Sigellipse.Sigma? {
+
+        if !pSet.isEmpty {
+            let n = Double(pSet.count)
+            
+            // calc sigma
+            var sigma_xx = 0.0
+            var sigma_xy = 0.0
+            var sigma_yx = 0.0
+            var sigma_yy = 0.0
+            
+            for p in pSet {
+                sigma_xx += (p.x - mu.x) * (p.x - mu.x)
+                sigma_xy += (p.x - mu.x) * (p.y - mu.y)
+                sigma_yx += (p.y - mu.y) * (p.x - mu.x)
+                sigma_yy += (p.y - mu.y) * (p.y - mu.y)
+            }
+            
+            // standard deviation (sigma)
+            sigma_xx = sigma_xx / (n - 1)
+            sigma_xy = sigma_xy / (n - 1)
+            sigma_yx = sigma_yx / (n - 1)
+            sigma_yy = sigma_yy / (n - 1)
+            
+            return Sigellipse.Sigma(m: [sigma_xx, sigma_xy, sigma_yx, sigma_yy])
+        }
+        return nil
+    }
     
-    private func generateParticlesAroundBeacons(beacons: [Beacon]) -> [Particle] {
+    
+    // MARK: Particle Generation
+    private func generateParticlesAroundBeacons(beacons: [Beacon], count: Int) -> [Particle] {
         var particles = [Particle]()
         
         for (i, b) in enumerate(beacons) {
@@ -364,9 +413,9 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
                 var size:Int = 0
                 
                 if b === beacons.last {
-                    size = particleSetSize - particles.count
+                    size = count - particles.count
                 } else {
-                    size =  Int(pow(0.5, Double(i+1)) * Double(particleSetSize))
+                    size =  Int(pow(0.5, Double(i+1)) * Double(count))
                 }
                 
                 var addedParticles = 0
@@ -419,20 +468,21 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
     // MARK: Observer protocol - BeaconRadio
     
     func measurmenetModel(model: MeasurementModel, didObserveMeasurement beacons: [Beacon]) {
-        // get Beacons ordered by accuracy ascending
-        
-        let beacons = beacons.sorted({$0.accuracy < $1.accuracy})
+
+        self.rangedBeacons = beacons
         
         // particle set empty => generation
-        if self.particleSet.isEmpty && !beacons.isEmpty {
+        if self.particleSet.isEmpty {
+            // get Beacons ordered by accuracy ascending
+            let beacons = self.rangedBeacons.sorted({$0.accuracy < $1.accuracy})
             
-            let particles = generateParticlesAroundBeacons(beacons)
+            let particles = generateParticlesAroundBeacons(beacons, count: self.particleSetSize)
             if !particles.isEmpty {
                 self.particleSet = particles // -> notifies observers
             }
-            
-        } else {
-            // mcl
+        }
+        
+        if !self.particleSet.isEmpty {
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 self.mcl()
             })

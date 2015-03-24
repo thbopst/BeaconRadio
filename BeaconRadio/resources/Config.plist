@@ -9,7 +9,7 @@
 		<key>y</key>
 		<real>5.4</real>
 	</dict>
-	<key>startPoseMotionTracker_F035</key>
+	<key>startPoseMotionTracker_F007</key>
 	<dict>
 		<key>x</key>
 		<real>0.45</real>
@@ -17,7 +17,7 @@
 		<real>7.75</real>
 	</dict>
 	<key>simulationDataPrefix</key>
-	<string>F-Foyer2_F007-F023-F007_kidnapping</string>
+	<string>F-Foyer2_2RoundsF007_2</string>
 	<key>map</key>
 	<string>F-Foyer2</string>
 </dict>

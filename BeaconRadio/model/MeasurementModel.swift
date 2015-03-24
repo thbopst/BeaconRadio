@@ -97,7 +97,7 @@ class MeasurementModel: BeaconRadarDelegate {
                     
                     let w = NormalDistribution.pdf(d_measurment, mu: d, sigma: sigma_d)
                     
-                    weight *= w
+                    weight *= w * 10
                     
                     //                    println("LM: \(bID) -> Distance: \(d), measuredDistance: \(self.beaconsInRange[bID]!), weight: \(w)")
                 }

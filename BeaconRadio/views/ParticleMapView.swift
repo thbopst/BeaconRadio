@@ -10,11 +10,7 @@ import UIKit
 
 @objc class ParticleMapView: UIView {
     
-    // MARK: Initializer
-    override init() {
-        super.init()
-    }
-    
+    // MARK: Initializer    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
