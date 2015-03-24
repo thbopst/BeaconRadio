@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E013884A1A1B455600CB1999 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
 		E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
 		E0181F7F1A10CAB8003D9E2D /* MeasurementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */; };
 		E01BC31B1A91D25D00838DBA /* Sigellipse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01BC31A1A91D25D00838DBA /* Sigellipse.swift */; };
@@ -26,7 +25,6 @@
 		E037FB021A8B973900B0EEC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E040632819E549ED00C0A3D0 /* AppDelegate.swift */; };
 		E037FB041A8B973900B0EEC6 /* ParticleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09461051A03FA5D0026E002 /* ParticleMapView.swift */; };
 		E037FB051A8B973900B0EEC6 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05551CB1A1365C90073EFAC /* Angle.swift */; };
-		E037FB071A8B973900B0EEC6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01388491A1B455600CB1999 /* Logger.swift */; };
 		E037FB081A8B973900B0EEC6 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCEC101A1606980035BB35 /* NormalDistribution.swift */; };
 		E037FB0A1A8B973900B0EEC6 /* MotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */; };
 		E037FB0B1A8B973900B0EEC6 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E09D111A236E10008DBAA1 /* Util.swift */; };
@@ -113,7 +111,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E01388491A1B455600CB1999 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E015CF971A0B6C3800C4D4F2 /* MotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionModel.swift; sourceTree = "<group>"; };
 		E0181F7E1A10CAB8003D9E2D /* MeasurementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementModel.swift; sourceTree = "<group>"; };
 		E01BC31A1A91D25D00838DBA /* Sigellipse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sigellipse.swift; sourceTree = "<group>"; };
@@ -312,7 +309,6 @@
 				E05551CB1A1365C90073EFAC /* Angle.swift */,
 				E0E09D071A1F329C008DBAA1 /* DataLogger.swift */,
 				E0E09D091A1F32AF008DBAA1 /* DataPlayer.swift */,
-				E01388491A1B455600CB1999 /* Logger.swift */,
 				E0FCEC101A1606980035BB35 /* NormalDistribution.swift */,
 				E040633519E549ED00C0A3D0 /* Observable.swift */,
 				E040633619E549ED00C0A3D0 /* Observer.swift */,
@@ -523,7 +519,6 @@
 				E037FB041A8B973900B0EEC6 /* ParticleMapView.swift in Sources */,
 				E037FB441A8BC12E00B0EEC6 /* Map.swift in Sources */,
 				E037FB051A8B973900B0EEC6 /* Angle.swift in Sources */,
-				E037FB071A8B973900B0EEC6 /* Logger.swift in Sources */,
 				E037FB461A8BC12E00B0EEC6 /* MapsManager.swift in Sources */,
 				E037FB081A8B973900B0EEC6 /* NormalDistribution.swift in Sources */,
 				E037FB0A1A8B973900B0EEC6 /* MotionModel.swift in Sources */,
@@ -557,7 +552,6 @@
 				E09461061A03FA5D0026E002 /* ParticleMapView.swift in Sources */,
 				E037FB431A8BC12E00B0EEC6 /* Map.swift in Sources */,
 				E05551CC1A1365C90073EFAC /* Angle.swift in Sources */,
-				E013884A1A1B455600CB1999 /* Logger.swift in Sources */,
 				E037FB451A8BC12E00B0EEC6 /* MapsManager.swift in Sources */,
 				E0FCEC111A1606980035BB35 /* NormalDistribution.swift in Sources */,
 				E015CF981A0B6C3800C4D4F2 /* MotionModel.swift in Sources */,

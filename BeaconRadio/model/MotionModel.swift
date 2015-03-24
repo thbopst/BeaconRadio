@@ -59,6 +59,8 @@ class MotionModel: MotionTrackerDelegate {
         }
     }
     
+    private let motionLogger = DataLogger(attributeNames: ["x", "y", "theta"])
+
     
     init(map: Map) {
         self.map = map
@@ -69,15 +71,18 @@ class MotionModel: MotionTrackerDelegate {
     
     func startMotionTracking() {
         self.motionTracker.startMotionTracking(self)
+        self.motionLogger.start()
     }
     
     func stopMotionTracking() {
         self.motionTracker.stopMotionTracking() // TODO: Delete maybe all old data?
         
-        for p in poseStore {
-            Logger.sharedInstance.log(message: "[MotionPose] x:\(p.x), y: \(p.y)")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd_HH-mm"
+        
+        if let path = Util.pathToLogfileWithName("\(dateFormatter.stringFromDate(NSDate()))_MotionPose.csv") {
+            self.motionLogger.save(dataStoragePath: path, error: nil)
         }
-        Logger.sharedInstance.save2File()
     }
     
     var latestMotions: [Motion] {
@@ -122,8 +127,11 @@ class MotionModel: MotionTrackerDelegate {
         
         let lastPose = self.lastPoseEstimation
         if xDiff != 0.0 && yDiff != 0.0 {
-            poseStore.append(Pose(x: lastPose.x + xDiff, y: lastPose.y + yDiff, theta: heading))
-//            println("[MotionPose] x:\(poseStore.last!.x), y: \(poseStore.last!.y)")
+            let x = lastPose.x + xDiff
+            let y = lastPose.y + yDiff
+            let theta = heading
+            poseStore.append(Pose(x: x, y: y, theta: theta))
+            self.motionLogger.log([["x":"\(x)", "y":"\(y)", "theta":"\(theta)"]])
         }
         
         self.motionStore.removeAll(keepCapacity: true)
