@@ -184,25 +184,23 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
             particlesT = self.filter(p, andMeasurements: emptyMeasurement)
         }
         
+        
+        
+        // integrate measurement if no distance was measured until now
+        // or if last distance measurement is more than 2.7 seconds ago
+        let ts_latesDistance = self.motionModel.timestampOfLatestDistanceMeasurment()
+        
         // if device is Stationary => integrate sensor values, if not return them to measurement model
-        if self.motionModel.isDeviceStationary.stationary {
+        if self.motionModel.isDeviceStationary.stationary && (ts_latesDistance == nil ||  NSDate().timeIntervalSinceDate(ts_latesDistance!) > 2.7) {
             println("stationary")
             
-            // integrate measurement if no distance was measured until now
-            // or if last distance measurement is more than 2.7 seconds ago
-            let ts_latesDistance = self.motionModel.timestampOfLatestDistanceMeasurment()
-            
-            if ts_latesDistance == nil ||  NSDate().timeIntervalSinceDate(ts_latesDistance!) > 2.7 {
+            while !z_reverse.isEmpty {
+                let z_k = z_reverse.last!
+                particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
+                particlesT = self.filter(particlesT, andMeasurements: z_k)
                 
-                while !z_reverse.isEmpty {
-                    let z_k = z_reverse.last!
-                    particlesT = self.integrateMotion(self.motionModel.stationaryMotion, intoParticleSet: particlesT)
-                    particlesT = self.filter(particlesT, andMeasurements: z_k)
-                    
-                    z_reverse.removeLast()
-                }
+                z_reverse.removeLast()
             }
-            
             
         } else {
             // return residual values to measurement model
@@ -226,7 +224,7 @@ class ParticleFilter: NSObject, Observable, MeasurmentModelDelegate {
         // RECOVERY? (Kidnapped?)
         let rCount = self.recoveryParticleWeightSum.count
         
-        if rCount == 3 && self.recoveryParticleWeightSum.reduce(0.0, combine: +)/Double(rCount) < 1.0 { // 0.00001
+        if rCount == 3 && self.recoveryParticleWeightSum.reduce(0.0, combine: +)/Double(rCount) < 1.0 {
             
             let generatedParticles = generateParticlesAroundBeacons(beacons, count: Int(Double(self.particleSetSize) * 0.2))
             particles_tMinus1 += generatedParticles
