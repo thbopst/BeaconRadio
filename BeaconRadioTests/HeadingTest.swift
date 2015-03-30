@@ -64,4 +64,13 @@ class HeadingTest: XCTestCase {
         XCTAssertEqual(Heading(headingInDegree: 2.0) - Heading(headingInDegree: 1.0), Heading(headingInDegree: 1.0), "2.0 - 1.0 should be 1.0")
     }
     
+    func testDelta() {
+        XCTAssertEqual(Heading(headingInDegree: 1.0).delta(Heading(headingInDegree: 359.0)), 2.0, "Delta of 1.0 and 359.0 should be 2.0")
+        XCTAssertEqual(Heading(headingInDegree: 1.0).delta(Heading(headingInDegree: 3.0)), -2.0, "Delta of 1.0 and 3.0 should be -2.0")
+        XCTAssertEqual(Heading(headingInDegree: 359.0).delta(Heading(headingInDegree: 1.0)), -2.0, "Delta of 359.0 and 1.0 should be -2.0")
+        XCTAssertEqual(Heading(headingInDegree: 359.0).delta(Heading(headingInDegree: 357.0)), 2.0, "Delta of 357.0 and 359.0 should be 2.0")
+        XCTAssertEqual(Heading(headingInDegree: 1.0).delta(Heading(headingInDegree: 1.0)), 0.0, "Delta of 1.0 and 1.0 should be 0.0")
+        XCTAssertEqual(Heading(headingInDegree: 0.0).delta(Heading(headingInDegree: 180.0)), 180.0, "Delta of 0.0 and 180.0 should be 180.0")
+    }
+    
 }

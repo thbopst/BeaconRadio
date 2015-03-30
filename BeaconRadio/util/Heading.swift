@@ -30,6 +30,36 @@ class Heading: Comparable {
         
         self.heading = h
     }
+    
+    func delta(old: Heading) -> Double {
+        
+        var result: Double = 0.0
+        
+        let n = self.valueInDeg
+        let o = old.valueInDeg
+        
+        if n < o {
+            let v1 = abs(n - o)
+            let v2 = abs(360.0 + n - o)
+            
+            if v1 < v2 {
+                result = v1 * (-1.0)
+            } else {
+                result = v2
+            }
+        } else if n > o {
+            let v1 = abs(n - o)
+            let v2 = abs(360 - n + o)
+            
+            if v1 < v2 {
+                result = v1
+            } else {
+                result = v2 * (-1.0)
+            }
+        }
+        
+        return result
+    }
 }
 
 func == (lhs: Heading, rhs: Heading) -> Bool {

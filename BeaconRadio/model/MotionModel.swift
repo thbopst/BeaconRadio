@@ -158,6 +158,7 @@ class MotionModel: MotionTrackerDelegate {
 
     
     // MARK: MotionTrackerDelegate
+    private var latestFusedHeading: Heading? = nil
     
     func motionTracker(tracker: IMotionTracker, didMeasureCompassHeading heading: Heading, withTimestamp ts: NSDate) {
         
@@ -168,28 +169,28 @@ class MotionModel: MotionTrackerDelegate {
         
         
         // calc diff of device motion heading
-        if self.latestDMHeading != nil && self.lastDMHeading != nil {
-            let dmHeadingDiff = self.latestDMHeading!.valueInDeg - self.lastDMHeading!.valueInDeg
+        if let latestDMHeading = self.latestDMHeading,
+            let lastDMHeading = self.lastDMHeading,
+            let lastFusedHeading = self.latestFusedHeading {
             
-            // diff of compass heading
-            
-            if let lastCompassHeading = self.lastCompassHeading {
-                let compassHeadingDiff = mapBasedHeading.valueInDeg - lastCompassHeading.valueInDeg
+            // delta DeviceMotionHeading
+            let dmHeadingDiff = latestDMHeading.delta(lastDMHeading)
                 
-                // avg difference
-                let avgHeadingDiff = (compassHeadingDiff + dmHeadingDiff) / 2.0
-                
-                
-                if avgHeadingDiff < 0 {
-                    newHeading = lastCompassHeading - Heading(headingInDegree: abs(avgHeadingDiff))
-                } else {
-                    newHeading = lastCompassHeading + Heading(headingInDegree: avgHeadingDiff)
-                }
-                
-//                println("Heading cDiff: \(compassHeadingDiff), dmDiff: \(dmHeadingDiff), avg: \(avgHeadingDiff), nHeading: \(newHeading.valueInDeg)")
+            // delta last Heading estimation and compass Heading
+            let compassHeadingDiff = mapBasedHeading.delta(lastFusedHeading)
+
+            // avg difference
+            let avgHeadingDiff = (compassHeadingDiff + dmHeadingDiff) / 2.0
+
+            // new heading calculation
+            if avgHeadingDiff < 0 {
+                newHeading = lastFusedHeading - Heading(headingInDegree: abs(avgHeadingDiff))
+            } else {
+                newHeading = lastFusedHeading + Heading(headingInDegree: avgHeadingDiff)
             }
         }
 
+        self.latestFusedHeading = newHeading
         
         self.headingStore.append((timestamp: ts, heading: newHeading.valueInRads))
         
