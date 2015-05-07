@@ -65,8 +65,11 @@ class MotionModel: MotionTrackerDelegate {
     init(map: Map) {
         self.map = map
         
-        let p = ConfigReader.sharedInstance.startPoseMotionTracker
-        self.startPose = Pose(x: p.x, y: p.y, theta: 0.0)
+        if let let p = ConfigReader.sharedInstance.startPoseMotionTracker {
+            self.startPose = Pose(x: p.x, y: p.y, theta: 0.0)
+        } else {
+            self.startPose = Pose(x: 0.0, y: 0.0, theta: 0.0)
+        }
     }
     
     func startMotionTracking() {

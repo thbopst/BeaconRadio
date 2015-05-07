@@ -38,17 +38,18 @@ class ConfigReader {
     
     // MARK Config Properties
     
-    var map: String {
+    var map: String? {
         get {
             if let config = self.config, let m: AnyObject = config["map"] {
-                return m as! String
+                return m as? String
             } else {
                 assertionFailure("Reading map from config failed.")
+                return nil
             }
         }
     }
     
-    var startPoseMotionTracker: (x: Double, y: Double) {
+    var startPoseMotionTracker: (x: Double, y: Double)? {
         get {
             if let config = self.config,
                 let startPose: [String:Double] = config["startPoseMotionTracker"] as? [String:Double],
@@ -58,16 +59,18 @@ class ConfigReader {
                     return (x: x, y: y)
             } else {
                 assertionFailure("Reading motion tracker's start pose from config failed.")
+                return nil
             }
         }
     }
     
-    var simulationDataPrefix: String {
+    var simulationDataPrefix: String? {
         get {
             if let config = self.config, let prefix: AnyObject = config["simulationDataPrefix"] {
-                return prefix as! String
+                return prefix as? String
             } else {
                 assertionFailure("Reading simulationDataPrefix from config failed.")
+                return nil
             }
         }
     }

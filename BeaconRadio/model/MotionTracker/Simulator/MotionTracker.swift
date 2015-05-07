@@ -27,9 +27,9 @@ class MotionTracker: IMotionTracker, DataPlayerDelegate {
         
         let prefix = ConfigReader.sharedInstance.simulationDataPrefix
         
-        if let headingPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Heading"),
-            let deviceMotionPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "DeviceMotion"),
-            let pedometerPath = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Pedometer") {
+        if let headingPath = ConfigReader.pathToSimulationDataWithPrefix(prefix!, dataType: "Heading"),
+            let deviceMotionPath = ConfigReader.pathToSimulationDataWithPrefix(prefix!, dataType: "DeviceMotion"),
+            let pedometerPath = ConfigReader.pathToSimulationDataWithPrefix(prefix!, dataType: "Pedometer") {
         
                 self.headingPlayer.load(dataStoragePath: headingPath, error: nil)
                 self.deviceMotionPlayer.load(dataStoragePath: deviceMotionPath, error: nil)

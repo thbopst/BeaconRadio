@@ -28,7 +28,7 @@ class BeaconRadar: IBeaconRadar, DataPlayerDelegate {
     
     func startRanging() {
         let prefix = ConfigReader.sharedInstance.simulationDataPrefix
-        if let path = ConfigReader.pathToSimulationDataWithPrefix(prefix, dataType: "Beacon") {
+        if let path = ConfigReader.pathToSimulationDataWithPrefix(prefix!, dataType: "Beacon") {
             isRanging = true
             self.dataPlayer.load(dataStoragePath: path , error: nil)
             self.dataPlayer.playback(self)

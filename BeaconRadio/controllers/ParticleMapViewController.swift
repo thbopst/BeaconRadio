@@ -17,8 +17,11 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
     @IBOutlet weak var startStopLocalization: UIBarButtonItem!
 
     private lazy var map:Map? = {
-        let map = ConfigReader.sharedInstance.map
-        return MapsManager.loadMap(name: map)
+        if let map = ConfigReader.sharedInstance.map {
+            return MapsManager.loadMap(name: map)
+        } else {
+            return nil
+        }
     }()
 
     private var particleFilter: ParticleFilter? = nil

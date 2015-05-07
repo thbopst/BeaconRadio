@@ -2,12 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>startPoseMotionTracker_Eval1</key>
+	<key>startPoseMotionTracker_Eval_4</key>
+	<dict>
+		<key>x</key>
+		<real>15</real>
+		<key>y</key>
+		<real>27</real>
+	</dict>
+	<key>startPoseMotionTracker_Eval_2</key>
+	<dict>
+		<key>x</key>
+		<real>7.6</real>
+		<key>y</key>
+		<real>10.4</real>
+	</dict>
+	<key>startPoseMotionTracker_Eval_1</key>
 	<dict>
 		<key>x</key>
 		<real>7.62</real>
 		<key>y</key>
 		<real>10.4</real>
+	</dict>
+	<key>startPoseMotionTracker_Eval_3</key>
+	<dict>
+		<key>x</key>
+		<real>7.17</real>
+		<key>y</key>
+		<real>15.57</real>
 	</dict>
 	<key>startPoseMotionTracker</key>
 	<dict>
@@ -24,8 +45,8 @@
 		<real>7.75</real>
 	</dict>
 	<key>simulationDataPrefix</key>
-	<string>F-Foyer2_F007-F023-F007_kidnapping</string>
+	<string>F-Foyer_F007-F023-F022-F007</string>
 	<key>map</key>
-	<string>F-Foyer2</string>
+	<string>F-Foyer</string>
 </dict>
 </plist>
