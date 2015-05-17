@@ -243,11 +243,6 @@ class MotionModel: MotionTrackerDelegate {
     private func computeMotionsByIntegratingHeadingIntoDistance(distance: Double, forStartTime start: NSDate, andEndTime end: NSDate) -> [Motion] {
         
         let headings = self.headingStore.filter({h in (h.timestamp.compare(start) != NSComparisonResult.OrderedAscending && h.timestamp.compare(end) != NSComparisonResult.OrderedDescending)})
-        //FIXME headings filter
-        
-//        if let first = headings.first {
-//            if first.timestamp.compare(start) == NSComparisonResult.OrderedDescending && // suche heading davor und setzte startdate auf start
-//        }
         
         let totalDuration = end.timeIntervalSinceDate(start)
         

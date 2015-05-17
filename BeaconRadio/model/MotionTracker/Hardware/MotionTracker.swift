@@ -23,7 +23,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     
     private var isTracking: Bool = false
     private lazy var pedometer = CMPedometer()
-    private lazy var stepcounter = CMStepCounter()
     private lazy var motionactivity = CMMotionActivityManager()
     private lazy var deviceMotion = CMMotionManager()
     private lazy var locationManager = CLLocationManager()
@@ -32,7 +31,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     // Logger
     private let headingLogger = DataLogger(attributeNames: ["ts", "magneticHeading"])
     private let pedometerLogger = DataLogger(attributeNames: ["startTime", "endTime", "distance", "steps"])
-    private let stepCounterLogger = DataLogger(attributeNames: ["ts", "steps"])
     private let deviceMotionLogger = DataLogger(attributeNames: ["ts", "m11", "m12", "m13", "m21", "m22", "m23", "m31", "m32", "m33", "ax", "ay", "az"])
     private let activityLogger = DataLogger(attributeNames: ["startDate", "confidence", "unknown", "stationary", "walking", "running", "automotive", "cycling"])
 
@@ -63,11 +61,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         }
         
         
-        
-//        if UInt32(CMMotionManager.availableAttitudeReferenceFrames().rawValue) & UInt32(CMAttitudeReferenceFrame.XMagneticNorthZVertical.rawValue) == 0 {
-//            println("[ERROR] CMMotionAttitudeReferenceFrameXMagneticNorthZVertical NOT available.")
-//        }
-        
         // CMDeviceMotion
         self.deviceMotion.showsDeviceMovementDisplay = true
         self.deviceMotion.deviceMotionUpdateInterval = 1.0/Double(self.MOTION_UPDATES)
@@ -94,7 +87,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
         
         self.headingLogger.start()
         self.pedometerLogger.start()
-        self.stepCounterLogger.start()
         self.deviceMotionLogger.start()
         self.activityLogger.start()
         
@@ -126,25 +118,9 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                     })
                 }
                 
-                // STEPCOUNTER
-                if CMStepCounter.isStepCountingAvailable() {
-                    self.stepcounter.startStepCountingUpdatesToQueue(operationQueue, updateOn: 1, withHandler: {numberOfSteps, timestamp, error in
-                        if error != nil {
-                            println("[ERROR] CMStepCounter: \(error.description)")
-                        } else {
-                            self.operationQueue.addOperationWithBlock({
-                                let relativeTs = self.stepCounterLogger.convertAbsoluteDateToRelativeDate(timestamp)
-                                self.stepCounterLogger.log([["ts":"\(relativeTs)", "steps":"\(numberOfSteps)"]])
-                            })
-                        }
-                    })
-                }
-                
                 // ACTIVITY
                 if CMMotionActivityManager.isActivityAvailable() {
                     self.motionactivity.startActivityUpdatesToQueue(operationQueue, withHandler: {activity in
-                        
-//                        self.delegate?.motionTracker(self, didReceiveMotionActivityData: activity.stationary, withConfidence: activity.confidence, andStartDate: activity.startDate)
                         
                         let relativeTs = self.activityLogger.convertAbsoluteDateToRelativeDate(activity.startDate)
                         
@@ -225,7 +201,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
     func stopMotionTracking() {
         if isTracking {
             self.pedometer.stopPedometerUpdates()
-            self.stepcounter.stopStepCountingUpdates()
             self.motionactivity.stopActivityUpdates()
             self.locationManager.stopUpdatingHeading()
             self.deviceMotion.stopDeviceMotionUpdates()
@@ -239,9 +214,6 @@ class MotionTracker: NSObject, IMotionTracker, CLLocationManagerDelegate {
                 
                 let pedometerPath = dir.stringByAppendingPathComponent("\(self.dateFormatter.stringFromDate(NSDate()))_Pedometer.csv");
                 self.pedometerLogger.save(dataStoragePath: pedometerPath, error: nil)
-                
-                let stepCounterPath = dir.stringByAppendingPathComponent("\(self.dateFormatter.stringFromDate(NSDate()))_StepCounter.csv");
-                self.stepCounterLogger.save(dataStoragePath: stepCounterPath, error: nil)
                 
                 let deviceMotionPath = dir.stringByAppendingPathComponent("\(self.dateFormatter.stringFromDate(NSDate()))_DeviceMotion.csv");
                 self.deviceMotionLogger.save(dataStoragePath: deviceMotionPath, error: nil)
