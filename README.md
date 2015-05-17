@@ -26,9 +26,9 @@ The *resources/Config.plist* file contains the applications configuration parame
 
 First, it specifies which map, stored in the maps folder, should be loaded. To load a specific map the  *map* key needs to be set to the map’s file name (e.g. *map* = F_007, not F_007.png/plist).
 
-Second, the motion trackers (i.e. the odometrie’s) start position (x, y in meters) is defined via the **startPoseMotionTracker** key.
+Second, the motion trackers (i.e. the odometrie’s) start position (x, y in meters) is defined via the *startPoseMotionTracker* key.
 
-For the simulation also the folder name of the simulation data needs to be defined by setting the **simulationDataPrefix** key.
+For the simulation also the folder name of the simulation data needs to be defined by setting the *simulationDataPrefix* key.
 
 # Map
 A map always consists of an image, depicting the map and a plist file. Both are stored in the *resources/maps* folder and named equally (e.g. F_007.png, F_007.plist). The plist file contains the deployed *beacons’* positions and their identifiers, a *scale* factor for the map, and the maps magnetic *orientation*. The scale factor defines how many pixels represent 1 meter on the map (e.g. 100 pixel = 1m => scale = 100). The maps orientation is defined in degrees. Examples can be found in the maps folder.
