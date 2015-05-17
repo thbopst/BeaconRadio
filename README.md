@@ -1,5 +1,3 @@
-BeaconRadio
-===========
 This README file provides a short overview of my Proof of Concept implementation corresponding to my [Master-Thesis “Indoor Self-Localization with Smartphones using iBeacons”](thesis.pdf).
 
 # General Details
