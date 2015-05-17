@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SiU-hj-KIg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SiU-hj-KIg">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Particle Filter-->
@@ -17,30 +16,42 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="eya-y7-U7s">
-                                <rect key="frame" x="16" y="64" width="568" height="487"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e15-pQ-P61">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
-                                    <view contentMode="scaleAspectFit" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnH-zr-hbq" customClass="ParticleMapView" customModule="BeaconRadio" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="568" height="487"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="eya-y7-U7s">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                        <subviews>
+                                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fnH-zr-hbq" customClass="ParticleMapView" customModule="BeaconRadio" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="-32" width="600" height="536"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="fnH-zr-hbq" firstAttribute="leading" secondItem="eya-y7-U7s" secondAttribute="leading" id="6Ei-gO-dLx"/>
+                                            <constraint firstAttribute="bottom" secondItem="fnH-zr-hbq" secondAttribute="bottom" constant="-32" id="GR2-ql-Bsy"/>
+                                            <constraint firstAttribute="trailing" secondItem="fnH-zr-hbq" secondAttribute="trailing" id="iGl-vK-dVa"/>
+                                            <constraint firstItem="fnH-zr-hbq" firstAttribute="top" secondItem="eya-y7-U7s" secondAttribute="top" constant="-32" id="rOR-1F-w4n"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="fnH-zr-hbq" firstAttribute="leading" secondItem="eya-y7-U7s" secondAttribute="leading" id="2kM-wu-IZe"/>
-                                    <constraint firstItem="fnH-zr-hbq" firstAttribute="top" secondItem="eya-y7-U7s" secondAttribute="top" id="81H-5K-hAn"/>
-                                    <constraint firstAttribute="width" secondItem="fnH-zr-hbq" secondAttribute="width" id="Lmj-PG-oWv"/>
-                                    <constraint firstAttribute="bottom" secondItem="fnH-zr-hbq" secondAttribute="bottom" id="fsf-MS-KOQ"/>
-                                    <constraint firstAttribute="trailing" secondItem="fnH-zr-hbq" secondAttribute="trailing" id="jDB-uO-tlr"/>
-                                    <constraint firstAttribute="height" secondItem="fnH-zr-hbq" secondAttribute="height" id="tm8-uV-SUg"/>
+                                    <constraint firstAttribute="width" secondItem="fnH-zr-hbq" secondAttribute="width" id="TOs-uk-oLF"/>
+                                    <constraint firstAttribute="bottom" secondItem="eya-y7-U7s" secondAttribute="bottom" id="abx-h4-8jX"/>
+                                    <constraint firstAttribute="height" secondItem="fnH-zr-hbq" secondAttribute="height" id="gr5-fX-bpp"/>
+                                    <constraint firstItem="eya-y7-U7s" firstAttribute="leading" secondItem="e15-pQ-P61" secondAttribute="leading" id="thl-uc-TaE"/>
+                                    <constraint firstItem="eya-y7-U7s" firstAttribute="top" secondItem="e15-pQ-P61" secondAttribute="top" id="uAD-0K-jWR"/>
+                                    <constraint firstAttribute="trailing" secondItem="eya-y7-U7s" secondAttribute="trailing" id="vPk-CR-bqi"/>
                                 </constraints>
-                            </scrollView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eya-y7-U7s" firstAttribute="trailing" secondItem="eWJ-gj-sDl" secondAttribute="trailingMargin" id="33g-UW-nHj"/>
-                            <constraint firstItem="eya-y7-U7s" firstAttribute="top" secondItem="G77-jp-YDN" secondAttribute="bottom" id="gDi-JG-byq"/>
-                            <constraint firstItem="eya-y7-U7s" firstAttribute="leading" secondItem="eWJ-gj-sDl" secondAttribute="leadingMargin" id="hB0-ux-0s8"/>
-                            <constraint firstItem="De6-7J-NZM" firstAttribute="top" secondItem="eya-y7-U7s" secondAttribute="bottom" id="zPr-QJ-FNL"/>
+                            <constraint firstItem="e15-pQ-P61" firstAttribute="top" secondItem="G77-jp-YDN" secondAttribute="bottom" id="UXx-Cu-zVQ"/>
+                            <constraint firstAttribute="centerX" secondItem="e15-pQ-P61" secondAttribute="centerX" id="WPs-GK-jsX"/>
+                            <constraint firstItem="De6-7J-NZM" firstAttribute="top" secondItem="e15-pQ-P61" secondAttribute="bottom" id="ip2-MD-gBG"/>
+                            <constraint firstAttribute="width" secondItem="e15-pQ-P61" secondAttribute="width" id="nJw-7C-sL4"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="blp-YC-47Y"/>

@@ -27,7 +27,6 @@ import UIKit
         if let dataSource = self.dataSource {
             if let mapImg = dataSource.mapImgForParticleMapView(self) {
                 let particles = dataSource.particlesForParticleMapView(self)
-                //let mean = dataSource.particleSetMeanForParticleMapView(self)
                 let path = dataSource.estimatedPathForParticleMapView(self)
                 let motionPath = dataSource.estimatedMotionPathForParticleMapView(self)
                 let landmarks = dataSource.landmarkForParticleMapView(self)
@@ -68,7 +67,7 @@ import UIKit
     
     private var arrowHeadAngle: Double {
         get {
-            return M_PI_2 // = Angle.deg2Rad(90)
+            return M_PI_2
         }
     }
     
@@ -230,7 +229,6 @@ import UIKit
             }
             
             CGContextDrawPath(context, kCGPathStroke)
-//            drawPoint(CGPoint(x: first.x, y: first.y), withColor: color)
             drawPoint(CGPoint(x: last.x, y: last.y), withColor: color)
         }
     }
@@ -267,8 +265,6 @@ import UIKit
             }
             CGContextClosePath(context)
             CGContextDrawPath(context, kCGPathStroke)
-//            drawPoint(CGPoint(x: first.x, y: first.y), withColor: color)
-//            drawPoint(CGPoint(x: last.x, y: last.y), withColor: color)
         }
     }
     
@@ -279,7 +275,6 @@ protocol ParticleMapViewDataSource {
     func particlesForParticleMapView(view: ParticleMapView) -> [Particle]
     func estimatedPathForParticleMapView(view: ParticleMapView) -> [Pose]
     func landmarkForParticleMapView(view: ParticleMapView) -> [Landmark]
-//    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double)
     func estimatedMotionPathForParticleMapView(view: ParticleMapView) -> [Pose]
     func pointsOfSigellipseForParticleMapView(view: ParticleMapView) -> [Sigellipse.Point]
 }

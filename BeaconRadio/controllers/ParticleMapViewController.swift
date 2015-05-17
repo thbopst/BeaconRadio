@@ -42,14 +42,8 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
             particleFilter.addObserver(self)
         }
 
-        //centerMap()
-
-    }
-
-    private func centerMap() {
-        let offsetX:CGFloat = max((self.scrollView.bounds.size.width - self.particleMapView.bounds.size.width) / 2, 0.0)
-        let offsetY:CGFloat = max((self.scrollView.bounds.size.height - self.particleMapView.bounds.size.height) / 2, 0.0)
-        self.particleMapView.center = CGPoint(x: self.particleMapView.bounds.size.width / 2 + offsetX, y: self.particleMapView.bounds.size.height / 2 + offsetY);
+        let scrollView: UIScrollView = self.particleMapView.superview as! UIScrollView
+        scrollView.setContentOffset(CGPointZero, animated: false);
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -140,16 +134,6 @@ class ParticleMapViewController: UIViewController, Observer, UIScrollViewDelegat
         }
         return []
     }
-
-//    func particleSetMeanForParticleMapView(view: ParticleMapView) -> (x: Double, y: Double) {
-//        if let map = self.map {
-//            if let particleFilter = self.particleFilter {
-//                let p = transformPoint(particleFilter.particleSetMeanAndCov.mu, ToMapCS: map)
-//                return (x: p.x, y: p.y)
-//            }
-//        }
-//        return (x: -1, y: -1)
-//    }
 
     func pointsOfSigellipseForParticleMapView(view: ParticleMapView) -> [Sigellipse.Point] {
 
