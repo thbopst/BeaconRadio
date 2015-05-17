@@ -39,9 +39,13 @@ A map always consists of an image, depicting the map and a plist file. Both are 
 Simulation data can be recorded using the built-in logger. To do so, one has to press the *stop* button on the interface and the measured data is stored in the iPhone application’s document directory which can be accessed via iTunes. This data can then be moved to the *resources/simulation* folder to use it for the simulation. The logged data is stored in csv format.
 
 # Demo Videos
+The following example videos demonstrate the implementations behavior.
+
+Particles are shown as red arrows. The beacons are shown as small blue filled circles. The blue dashed line shows the estimated path. The black dashed line depicts the motion (i.e. odometry) path.
+
 * [1_F-Foyer_F007.mov](movies/1_F-Foyer_F007.mov)
 * [2_F-Foyer_F023_F007_0.mov](movies/2_F-Foyer_F023_F007_0.mov)
-* [3_F-Foyer_F007_F023_F022_F007.mov](3_F-Foyer_F007_F023_F022_F007.mov)
+* [3_F-Foyer_F007_F023_F022_F007.mov](movies/3_F-Foyer_F007_F023_F022_F007.mov)
 * [F-Foyer_F023_F007_1.mov](movies/F-Foyer_F023_F007_1.mov)
 * [F-Foyer_F023_F007_2.mov](movies/F-Foyer_F023_F007_2.mov)
 
