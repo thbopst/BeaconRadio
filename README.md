@@ -39,13 +39,13 @@ Simulation data can be recorded using the built-in logger. To do so, one has to 
 # Demo Videos
 The following example videos demonstrate the implementations behavior.
 
-Particles are shown as red arrows. The beacons are shown as small blue filled circles. The blue dashed line shows the estimated path. The black dashed line depicts the motion (i.e. odometry) path.
-
 * [1_F-Foyer_F007.mov](movies/1_F-Foyer_F007.mov)
 * [2_F-Foyer_F023_F007_0.mov](movies/2_F-Foyer_F023_F007_0.mov)
 * [3_F-Foyer_F007_F023_F022_F007.mov](movies/3_F-Foyer_F007_F023_F022_F007.mov)
 * [F-Foyer_F023_F007_1.mov](movies/F-Foyer_F023_F007_1.mov)
 * [F-Foyer_F023_F007_2.mov](movies/F-Foyer_F023_F007_2.mov)
+
+Particles are shown as red arrows, beacons as small blue filled circles. The blue dashed line depicts the estimated path. The black dashed line illustrates the motion (i.e. odometry) path.
 
 # License
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)
